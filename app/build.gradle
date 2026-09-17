@@ -2,6 +2,19 @@ plugins {
     id 'com.android.application'
 }
 
+// ---------------------------------------------------------------- assinatura
+// Os dados da chave de release ficam em keystore.properties (que está no
+// .gitignore e NUNCA deve ser versionado). Sem esse arquivo o build cai no
+// debug — e o Android marca APK assinado como debug com o aviso
+// "app não confiável" no Play Protect. Com a chave de release, esse aviso some
+// (o de "app de fora da loja" continua, porque é assim para todo app sideload).
+def keystoreProps = new Properties()
+def keystoreFile = rootProject.file('keystore.properties')
+def temKeystore = keystoreFile.exists()
+if (temKeystore) {
+    keystoreProps.load(new FileInputStream(keystoreFile))
+}
+
 android {
     namespace 'com.leo.nexusmusicapp'
     compileSdk 34
@@ -10,14 +23,26 @@ android {
         applicationId "com.leo.nexusmusicapp"
         minSdk 24
         targetSdk 34
-        versionCode 10
-        versionName "1.9"
+        versionCode 11
+        versionName "1.10"
+    }
+
+    signingConfigs {
+        release {
+            if (temKeystore) {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            // assinatura de RELEASE de verdade (era signingConfigs.debug)
+            signingConfig temKeystore ? signingConfigs.release : signingConfigs.debug
         }
         debug {
             minifyEnabled false

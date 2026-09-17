@@ -3253,6 +3253,155 @@ body::after{
     color:rgba(255,255,255,.5);
 }
 
+
+/* =========================================================
+   APOIE O PROJETO (PIX) — a pedido, 16/09/2026
+   ---------------------------------------------------------
+   Doação espontânea, nunca cobrança: não há nada bloqueado no
+   app. O tom é convite. Cantos retos e o tema de sempre.
+   O QR vem embutido em base64 para funcionar no web E no APK
+   sem depender de nenhuma rota nova do servidor.
+========================================================= */
+
+.apoio-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-left:14px;
+    padding:6px 12px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:1.4px;
+    color:var(--green2);
+    background:rgba(0,212,255,.07);
+    border:1px solid rgba(0,212,255,.35);
+    cursor:pointer;
+    transition:background .2s, border-color .2s, color .2s;
+}
+
+.apoio-btn:hover{
+    color:#fff;
+    background:linear-gradient(180deg, rgba(255,45,150,.28), rgba(0,212,255,.18));
+    border-color:var(--pink);
+}
+
+/* ---------- a janela ---------- */
+.apoio-overlay{
+    position:fixed;
+    inset:0;
+    z-index:120;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(3,2,8,.86);
+}
+
+.apoio-overlay.aberto{
+    display:flex;
+}
+
+.apoio-caixa{
+    position:relative;
+    width:100%;
+    max-width:400px;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:26px 24px 22px;
+    text-align:center;
+    background:linear-gradient(180deg, #120a18, #08040d);
+    border:1px solid rgba(0,212,255,.45);
+    box-shadow:0 0 40px rgba(255,45,150,.22), inset 1px 1px 0 rgba(255,255,255,.08);
+}
+
+.apoio-titulo{
+    font-family:'Rajdhani',sans-serif;
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:2.4px;
+    color:#fff;
+    text-shadow:0 0 16px rgba(255,45,150,.7);
+}
+
+.apoio-sub{
+    margin-top:8px;
+    font-size:12.5px;
+    line-height:1.65;
+    color:rgba(255,255,255,.62);
+}
+
+.apoio-qr{
+    display:block;
+    width:216px;
+    height:216px;
+    margin:18px auto;
+    padding:9px;
+    background:#fff;
+    border:1px solid rgba(0,212,255,.5);
+}
+
+.apoio-chave{
+    margin-top:4px;
+    padding:9px 10px;
+    font-family:'Courier New',monospace;
+    font-size:10.5px;
+    line-height:1.5;
+    word-break:break-all;
+    color:rgba(0,212,255,.92);
+    background:rgba(0,212,255,.06);
+    border:1px dashed rgba(0,212,255,.35);
+}
+
+.apoio-acoes{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+}
+
+.apoio-acoes button{
+    flex:1;
+    padding:11px 8px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    cursor:pointer;
+    transition:filter .15s, transform .08s;
+}
+
+.apoio-copiar{
+    color:#fff;
+    background:linear-gradient(180deg, rgba(0,212,255,.3), rgba(0,212,255,.12));
+    border:1px solid var(--green2);
+}
+
+.apoio-copiar.ok{
+    background:linear-gradient(180deg, rgba(0,255,157,.35), rgba(0,255,157,.12));
+    border-color:#00ff9d;
+}
+
+.apoio-fechar{
+    color:rgba(255,255,255,.8);
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.22);
+}
+
+.apoio-acoes button:hover{
+    filter:brightness(1.25);
+}
+
+.apoio-acoes button:active{
+    transform:translateY(1px);
+}
+
+.apoio-rodape{
+    margin-top:14px;
+    font-size:10.5px;
+    letter-spacing:.6px;
+    color:rgba(255,255,255,.34);
+}
+
 </style>
 </head>
 
@@ -3673,9 +3822,49 @@ body::after{
 
     <div class="footer-credit">
         by <b>Leandro</b>
+        <button
+            class="apoio-btn"
+            onclick="abrirApoio()"
+            title="Gostou? Pode me pagar um café 😊">
+            ♥ APOIAR
+        </button>
     </div>
 
 </footer>
+
+
+<!-- =====================================================
+     APOIE O PROJETO (PIX) — doação espontânea
+===================================================== -->
+
+<div class="apoio-overlay" id="apoioOverlay" onclick="if(event.target===this)fecharApoio()">
+    <div class="apoio-caixa">
+        <div class="apoio-titulo">☕ APOIE O PROJETO</div>
+
+        <p class="apoio-sub">
+            O NEXUS MUSIC é <b>gratuito, aberto e sem anúncios</b>.
+            Tudo aqui funciona sem pagar nada — sempre vai funcionar.<br><br>
+            Mas se ele te acompanha no dia a dia e você quiser retribuir,
+            qualquer valor é bem-vindo. ❤️
+        </p>
+
+        <img
+            class="apoio-qr"
+            alt="QR Code do PIX para doação"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAnwAAAJ8AQMAAABeI+4VAAAABlBMVEUAAAD///+l2Z/dAAAAAnRSTlP//8i138cAAAAJcEhZcwAACxIAAAsSAdLdfvwAAANxSURBVHic7dldjhwhDEZR74D977J2QNICf7bpUpSHUYyii1olip/DvGBMjc0fLgYICAgICAgICAgICAgI+N+ApjK8Y3waX7qeT/X3U2PqREBAwFYwOZ8p0lJF+GJlVgEQELAZXBtc+72w/prlEh8GICDglaA/D2ed8nv6U8cDAgLeBn4NM9vOMnMLICDgbWDIw8/66Vo63NPccyIgIGA/qJLjw9/80kRAQMB2MBcb8fU7D17t+gNyZMizAQEBG8HY5j43VyyX1+AwAAEBrwD3y/rc/eywsFpsxKX7e2mFC0BAwEvANWZN12aPyrqPP3b2PgkHBATsBlOLz1q+l2CPD+P2HhwAAQHbwOrM9A1cLcFqaT0BAQEvAJd2VOLcl+9f2Ka+symTH4CAgP3gp0NzXZs1AdCxrpHRG/EBEBCwFRyxwRUE1s+UA6TL+NKiK3BAQMBOsEz/fp17+y9pVWY6+mcUQEDAVnDW5HzUsz6l6AspYaQUQEDATtBSrr6npOl7zHiJCeVvAAQE7AZ3ZJDpw47etUReeqcEUQABAbtBxQQNy+d7peacR/tLcAAEBOwA1Wg1Sw8hxYpjfHQBAgK2grkrkDTRRiwUT42fgICA14A5CDw7gX9Zzo/70m7K8AEBAVtB3a/NMr4nqig++CxRgICAt4B+fE/tdzNFgxI90qdyHfdeAAEBO8GN6Pcla/px+n9KMQEBAbtBs2PKTHFAc2fO55+4qgMCAt4ARjTIX8k8SpSSunIM0Z8ACAjYCQ6/Wet+veJA7Pp00Kdf4AMQEPAC8Pvq7aFg5nw+Nc6cD3wl7YCAgC1gsLUyU04euKVGXwIQEPAGMOKAzvqnHvopbsRBP4PVHwUICNgM+uDAY8vv18LOVIlhgICAnaCmaMBxiEvQof+9FiAgYD+YYsJ6jYP+sVJG/Ier9A5AQMB+0PIt23N1PXN5XWVGAQQE7ARz2YPGDNPT9bz0ftbxgICAvaCpjDjld7un6OrSSFNuHzk8ICBgK7hfZ55u5sn5KGNWo1piJCAg4AXgEQe03y2VEjdG+doGCAh4LbjCgtlbHPA0QKEDEBDwOtBMz0B06fa6pfQ+mYCAgM3gUZm+91XZwtxsWfqPtwBAQMB/B6rolJ9lpEJB9CpWlAIICNgJ/lwBBAQEBAQEBAQEBAQEBPwPwF9WQXC6ZfHzJAAAAABJRU5ErkJggg==">
+
+        <div class="apoio-chave" id="apoioChave">e0147a61-18b6-4cf0-972e-74d3cf38c90a</div>
+
+        <div class="apoio-acoes">
+            <button class="apoio-copiar" id="apoioCopiar" onclick="copiarChavePix()">
+                📋 COPIAR CHAVE
+            </button>
+            <button class="apoio-fechar" onclick="fecharApoio()">FECHAR</button>
+        </div>
+
+        <div class="apoio-rodape">chave aleatória · PIX · obrigado! 🙏</div>
+    </div>
+</div>
 
 </div>
 
@@ -3969,6 +4158,187 @@ document
 /* =========================================================
    FAVORITOS
 ========================================================= */
+
+
+/* =========================================================
+   APOIE O PROJETO (PIX)
+   ---------------------------------------------------------
+   Doação espontânea — sem paywall, sem cobrança. O botão fica
+   discreto no rodapé e abre uma janela com o QR e a chave.
+========================================================= */
+
+const PIX_CHAVE='e0147a61-18b6-4cf0-972e-74d3cf38c90a';
+
+
+function abrirApoio(){
+
+    const janela=
+        document.getElementById(
+            'apoioOverlay'
+        );
+
+    if(janela){
+        janela.classList.add('aberto');
+    }
+
+}
+
+
+function fecharApoio(){
+
+    const janela=
+        document.getElementById(
+            'apoioOverlay'
+        );
+
+    if(janela){
+        janela.classList.remove('aberto');
+    }
+
+}
+
+
+/**
+ * Copia a chave PIX.
+ *
+ * A Clipboard API exige "contexto seguro": no app o WebView serve a
+ * interface por http://127.0.0.1 (que conta como seguro) e no navegador
+ * funciona em localhost/HTTPS. Na rede (http://192.168.x.x) ela pode ser
+ * bloqueada — por isso há o fallback com textarea + execCommand.
+ */
+async function copiarChavePix(){
+
+    let copiou=false;
+
+
+    /* 1) no app: a ponte nativa (AndroidClip) é a mais garantida —
+       o WebView pode bloquear a Clipboard API do navegador */
+
+    try{
+
+        if(
+            window.AndroidClip&&
+            window.AndroidClip.copiar
+        ){
+
+            window.AndroidClip.copiar(
+                PIX_CHAVE
+            );
+
+            copiou=true;
+
+        }
+
+    }catch(e){
+        copiou=false;
+    }
+
+
+    /* 2) no navegador: Clipboard API (exige contexto seguro: localhost/HTTPS) */
+
+    if(!copiou){
+
+        try{
+
+            await navigator.clipboard.writeText(
+                PIX_CHAVE
+            );
+
+            copiou=true;
+
+        }catch(e){
+            copiou=false;
+        }
+
+    }
+
+
+    /* 3) último recurso: textarea + execCommand (rede local em http) */
+
+    if(!copiou){
+
+        try{
+
+            const campo=
+                document.createElement(
+                    'textarea'
+                );
+
+            campo.value=PIX_CHAVE;
+
+            campo.style.position='fixed';
+            campo.style.opacity='0';
+
+            document.body.appendChild(campo);
+
+            campo.select();
+
+            copiou=document.execCommand('copy');
+
+            document.body.removeChild(campo);
+
+        }catch(e2){
+            copiou=false;
+        }
+
+    }
+
+
+    const botao=
+        document.getElementById(
+            'apoioCopiar'
+        );
+
+    if(!botao)return;
+
+
+    if(copiou){
+
+        botao.classList.add('ok');
+
+        botao.textContent='✔ CHAVE COPIADA';
+
+        setTimeout(
+            ()=>{
+
+                botao.classList.remove('ok');
+
+                botao.textContent='📋 COPIAR CHAVE';
+
+            },
+            2600
+        );
+
+    }else{
+
+        botao.textContent='⚠ COPIE MANUALMENTE';
+
+        setTimeout(
+            ()=>{
+
+                botao.textContent='📋 COPIAR CHAVE';
+
+            },
+            2600
+        );
+
+    }
+
+}
+
+
+/* Esc fecha a janela */
+document.addEventListener(
+    'keydown',
+    e=>{
+
+        if(e.key==='Escape'){
+            fecharApoio();
+        }
+
+    }
+);
+
 
 /* =========================================================
    PERSISTÊNCIA DOS FAVORITOS (corrigido em 16/09/2026)

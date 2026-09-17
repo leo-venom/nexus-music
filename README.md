@@ -111,6 +111,21 @@ their extractor is what makes on-device downloading possible.
 
 ---
 
+## ☕ Support the project
+
+This app is **free, open source and ad-free** — and it will stay that way. Everything works without
+paying anything.
+
+If it's useful to you and you'd like to give something back, any amount is welcome. ❤️
+
+**PIX (Brazil)** — key `e0147a61-18b6-4cf0-972e-74d3cf38c90a`
+
+<img src="docs/pix-qr.png" width="180" alt="PIX QR code">
+
+*(The same screen exists inside the app, under **♥ APOIAR** in the footer.)*
+
+---
+
 ## ⚠️ Legal notice
 
 This app is **not affiliated with, endorsed by, or sponsored by YouTube or Google**.
@@ -121,6 +136,18 @@ uploads, public-domain or Creative Commons material.
 
 The author does not condone piracy. It is published as **open source for educational and personal
 use**, without any warranty.
+
+---
+
+## 📲 Instalando (e por que o Play Protect avisa)
+
+Baixe o APK na aba **[Releases](../../releases)** e instale. O Android vai pedir para permitir a
+instalação de "fontes desconhecidas" — isso é normal para **qualquer** app fora da Play Store
+(o NewPipe tem o mesmo aviso).
+
+> ⚠️ **Atenção:** o APK é assinado com uma chave de release própria. Se você instalou uma versão
+> anterior **de debug**, é preciso **desinstalar** antes — assinaturas diferentes não se atualizam
+> por cima.
 
 ---
 
@@ -138,6 +165,18 @@ qualquer rede.
 
 **Licença GPL-3.0** (obrigatória por usar o NewPipe Extractor). O código está aberto para estudo e uso
 pessoal — respeite os direitos autorais do conteúdo que baixar.
+
+### ☕ Apoiar o projeto
+
+O app é **gratuito, aberto e sem anúncios** — e vai continuar assim. Tudo funciona sem pagar nada.
+
+Se ele te ajuda no dia a dia e você quiser retribuir, qualquer valor é bem-vindo. ❤️
+
+**PIX:** `e0147a61-18b6-4cf0-972e-74d3cf38c90a`
+
+<img src="docs/pix-qr.png" width="170" alt="QR Code do PIX">
+
+*No app, a mesma tela fica no rodapé, em **♥ APOIAR**.*
 
 ---
 

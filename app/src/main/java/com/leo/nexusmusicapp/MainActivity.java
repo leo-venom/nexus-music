@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 
 /**
  * NEXUS MUSIC — app autônomo (100% no celular).
@@ -98,6 +102,12 @@ public class MainActivity extends Activity {
 
         webView.setBackgroundColor(0xFF000000);
         webView.setWebViewClient(new WebViewClient());
+
+        /* Ponte para o "copiar chave PIX": dentro do WebView o
+           navigator.clipboard pode ser bloqueado pelo sistema, então
+           expomos um caminho nativo que sempre funciona. O JS tenta
+           esta ponte antes de cair no fallback do navegador. */
+        webView.addJavascriptInterface(new PonteClipboard(), "AndroidClip");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -285,4 +295,26 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Copia texto para a área de transferência a pedido da interface.
+     * Exposta ao JavaScript como `AndroidClip.copiar(texto)`.
+     */
+    private class PonteClipboard {
+
+        @JavascriptInterface
+        public void copiar(final String texto) {
+            if (texto == null || texto.trim().isEmpty()) {
+                return;
+            }
+            runOnUiThread(() -> {
+                ClipboardManager area =
+                        (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (area != null) {
+                    area.setPrimaryClip(ClipData.newPlainText("PIX NEXUS MUSIC", texto.trim()));
+                }
+            });
+        }
+    }
+
 }
