@@ -207,6 +207,38 @@ na rua. Os pacotes são diferentes, então podem ficar instalados juntos.
 - [[nexus-music-app-offline-build]] — memória do build (decisões técnicas e armadilhas)
 - [[arquitetura]] · [[historico]] · [[nexus-music-dicas]] · [[nexus-music-solucoes]]
 
+
+## 🌍 Código aberto (publicado em 16/09/2026)
+
+**https://github.com/leo-venom/nexus-music** — repositório **público**, licença **GPL-3.0**.
+
+| Item | Valor |
+|---|---|
+| Comando de publicação | `./scripts/publicar.sh` (cria o repo, faz o push e publica a Release com o APK) |
+| Arquivos versionados | **26** |
+| Commits iniciais | `dc0255c` (código) · `3b3cb45` (script de publicação) |
+| Release | **v1.9** com `NEXUS-MUSIC-OFFLINE-v1.9.apk` (5,3 MB) anexado |
+| Linguagens (GitHub) | HTML 66,6% · Java 34,1% |
+| Créditos | NewPipe Extractor (GPL-3.0) e yt-dlp (Unlicense) |
+
+### ⚖️ Por que GPL-3.0 (e não MIT)
+
+O **NewPipe Extractor é GPL-3.0** (copyleft). Quem distribui um app que o incorpora **precisa**
+licenciar o app em GPL-3.0 também — foi verificado na API do GitHub antes de escolher. Não é
+limitação: é o mesmo caminho do próprio NewPipe, e garante que o crédito ao autor permaneça em
+qualquer fork.
+
+### 🚫 O que NÃO foi versionado (e por quê)
+
+`local.properties` (caminho do SDK), `.gradle/`, `build/`, APKs e keystores — todos no `.gitignore`.
+Os binários vão por **Releases**, não pelo git.
+
+### 📢 Decisão sobre monetização
+
+Ver [[nexus-music-decisao-monetizacao]]: **não monetizar** o download do YouTube (viola os Termos de
+Serviço e é barrado pela política da Play Store). Publicar como código aberto foi o caminho escolhido
+para reconhecimento.
+
 ## 💡 Evoluções possíveis (ideias guardadas — nenhuma pedida ainda)
 
 Anotadas em 16/09/2026, quando o Leo disse que prefere este app. **Nada disso foi aprovado** —
