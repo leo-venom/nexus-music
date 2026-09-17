@@ -145,8 +145,13 @@ Baixe o APK na aba **[Releases](../../releases)** e instale. O Android vai pedir
 instalação de "fontes desconhecidas" — isso é normal para **qualquer** app fora da Play Store
 (o NewPipe tem o mesmo aviso).
 
+**Sobre o aviso do Play Protect:** ele aparece para **todo** app instalado fora da loja e **não indica
+problema** — é o Google avisando que não revisou o arquivo. Não há como removê-lo sem publicar na Play
+Store, o que não é possível para um app que baixa do YouTube. Para instalar, toque em
+**"Instalar mesmo assim"**.
+
 > ⚠️ **Atenção:** o APK é assinado com uma chave de release própria. Se você instalou uma versão
-> anterior **de debug**, é preciso **desinstalar** antes — assinaturas diferentes não se atualizam
+> anterior à **v1.10**, é preciso **desinstalar** antes — assinaturas diferentes não se atualizam
 > por cima.
 
 ---
