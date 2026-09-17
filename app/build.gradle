@@ -23,8 +23,8 @@ android {
         applicationId "com.leo.nexusmusicapp"
         minSdk 24
         targetSdk 34
-        versionCode 13
-        versionName "1.12"
+        versionCode 14
+        versionName "1.13"
     }
 
     signingConfigs {
@@ -34,6 +34,18 @@ android {
                 storePassword keystoreProps['storePassword']
                 keyAlias keystoreProps['keyAlias']
                 keyPassword keystoreProps['keyPassword']
+
+                /* Os TRÊS esquemas de assinatura, de propósito:
+                   • v1 (JAR)  — o mais antigo; alguns verificadores de
+                     segurança ainda olham só para ele. Com minSdk 24 o AGP
+                     desliga por padrão, então forçamos ligado.
+                   • v2        — padrão do Android 7+ (o que importa aqui).
+                   • v3        — Android 9+, permite rotação de chave.
+                   Quanto mais esquemas o APK carrega, menos "estranho" ele
+                   parece para scanners automáticos. */
+                enableV1Signing true
+                enableV2Signing true
+                enableV3Signing true
             }
         }
     }
