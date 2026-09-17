@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.leo.nexusmusicapp'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.leo.nexusmusicapp"
+        minSdk 24
+        targetSdk 34
+        versionCode 10
+        versionName "1.9"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+
+    // o vídeo do player precisa ficar DESCOMPRIMIDO no APK:
+    // comprimido, o AssetFileDescriptor não dá o tamanho e o
+    // <video> não consegue buscar posição (seek/loop)
+    androidResources {
+        noCompress 'mp4'
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE*', 'META-INF/NOTICE*']
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // Extrai os streams do YouTube (Java puro, sem Python)
+    implementation 'com.github.teamnewpipe:NewPipeExtractor:v0.26.5'
+}

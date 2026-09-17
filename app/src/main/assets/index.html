@@ -1,0 +1,7413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>NEXUS MUSIC // CYBER SERVER</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#000000;
+    --panel:rgba(8,4,14,.72);
+    --panel2:rgba(10,5,18,.62);
+
+    --green:#ff2d96;
+    --green2:#00d4ff;
+    --green3:#ff9ed4;
+
+    --glass:rgba(10,5,18,.58);
+    --glass-strong:rgba(8,4,14,.78);
+
+    --text:#f2f0f7;
+    --muted:#8b8299;
+
+    --border:rgba(255,45,150,.18);
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,45,150,.055),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(0,180,255,.035),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color:var(--text);
+
+    font-family:'Rajdhani',sans-serif;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    /* GRADE do FUNDO PRINCIPAL (a pedido, 16/09/2026 — veio do box do
+       player): cinza escuro bem sutil, célula de 24px, uma linha
+       horizontal e uma vertical por célula.
+       `z-index:-1` deixa a grade ATRÁS do conteúdo (senão ela passaria
+       por cima dos cards e dos textos). */
+    background-image:
+        linear-gradient(
+            rgba(74,77,87,.32) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(74,77,87,.32) 1px,
+            transparent 1px
+        );
+
+    background-size:24px 24px;
+
+    /* desvanece para baixo: a grade aparece mais no topo */
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent
+        );
+
+    pointer-events:none;
+
+    z-index:-1;
+}
+
+.scanlines{
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+    z-index:999;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,140,215,.008) 4px
+        );
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    width:100%;
+    height:100%;
+
+    display:flex;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+    flex:1;
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+
+    position:relative;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+    min-height:70px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 25px;
+
+    gap:20px;
+
+    border-bottom:1px solid rgba(255,45,150,.10);
+
+    background:rgba(3,1,8,.65);
+
+    backdrop-filter:blur(14px);
+
+    position:relative;
+    z-index:20;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.top-logo{
+    display:flex;
+    flex-direction:column;
+
+    min-width:max-content;
+}
+
+.top-logo h1{
+    font-family:'Orbitron',sans-serif;
+
+    font-size:17px;
+
+    letter-spacing:3px;
+
+    color:white;
+
+    text-shadow:
+        0 0 10px var(--green),
+        0 0 25px rgba(255,45,150,.45);
+}
+
+.top-logo h1 span{
+    color:var(--green);
+}
+
+.top-logo small{
+    display:block;
+
+    margin-top:3px;
+
+    font-size:7px;
+
+    letter-spacing:2px;
+
+    color:var(--muted);
+}
+
+/* =========================================================
+   TOP NAV
+========================================================= */
+
+.top-nav{
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    flex-shrink:0;
+}
+
+.nav-btn{
+    border:1px solid rgba(255,45,150,.12);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,45,150,.045),
+            rgba(0,180,255,.025)
+        );
+
+    color:#8b7fa3;
+
+    padding:10px 13px;
+
+    border-radius:8px;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:9px;
+
+    letter-spacing:1.2px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    white-space:nowrap;
+}
+
+.nav-btn:hover{
+    color:white;
+
+    border-color:var(--green);
+
+    background:rgba(255,45,150,.055);
+
+    box-shadow:
+        0 0 18px rgba(255,45,150,.12);
+}
+
+.nav-btn.active{
+    color:white;
+
+    border-color:rgba(255,45,150,.62);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,45,150,.12),
+            rgba(0,180,255,.035)
+        );
+
+    box-shadow:
+        0 0 18px rgba(255,45,150,.055),
+        inset 0 -2px var(--green);
+
+    text-shadow:
+        0 0 8px var(--green);
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search{
+    flex:1;
+
+    max-width:500px;
+
+    position:relative;
+
+    margin-left:auto;
+}
+
+.search input{
+    width:100%;
+
+    padding:12px 18px 12px 43px;
+
+    border:1px solid rgba(255,45,150,.13);
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:rgba(0,0,0,.25);
+
+    color:white;
+
+    font-family:'Rajdhani';
+
+    font-size:15px;
+}
+
+.search input:focus{
+    border-color:rgba(255,45,150,.45);
+
+    box-shadow:
+        0 0 20px rgba(255,45,150,.07);
+}
+
+.search-icon{
+    position:absolute;
+
+    left:15px;
+    top:11px;
+
+    color:var(--green);
+
+    font-size:18px;
+}
+
+/* =========================================================
+   TOP ACTIONS
+========================================================= */
+
+.top-actions{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.top-btn{
+    width:40px;
+    height:40px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,45,150,.025);
+
+    color:#a89ec0;
+
+    cursor:pointer;
+}
+
+.top-btn:hover{
+    color:var(--green);
+
+    border-color:var(--green);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+    flex:1;
+
+    overflow:auto;
+
+    padding:25px;
+
+    /* CRÍTICO para o swipe no celular: `touch-action` é `auto` por padrão
+       e, com isso, o navegador CANCELA os pointer events (dispara
+       `pointercancel`) assim que entende o gesto como rolagem — o swipe
+       de voltar morria no meio do arrasto. Com `pan-y` o navegador cuida
+       do VERTICAL (a lista continua rolando normalmente) e entrega o
+       HORIZONTAL para o JS. */
+    touch-action:pan-y;
+
+    /* impede o navegador de usar o arrasto horizontal para o próprio
+       gesto de "voltar" (o swipe-back do sistema, que fazia SAIR da
+       página em vez de voltar uma pasta) */
+    overscroll-behavior-x:none;
+
+    overscroll-behavior-y:contain;
+}
+
+.content::-webkit-scrollbar{
+    width:5px;
+}
+
+.content::-webkit-scrollbar-thumb{
+    background:rgba(255,45,150,.25);
+
+    border-radius:10px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:235px;
+
+    border:1px solid rgba(255,45,150,.12);
+
+    border-radius:18px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:30px;
+
+    background:
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(0,180,255,.09),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 30% 50%,
+            rgba(0,247,255,.1),
+            transparent 40%
+        ),
+        rgba(7,10,20,.75);
+
+    display:flex;
+    align-items:center;
+}
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    right:8%;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,247,255,.15);
+
+    box-shadow:
+        0 0 50px rgba(255,45,150,.05),
+        inset 0 0 50px rgba(0,180,255,.035);
+
+    animation:rotate 15s linear infinite;
+}
+
+@keyframes rotate{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.hero-content{
+    position:relative;
+
+    z-index:2;
+}
+
+.kicker{
+    font-size:10px;
+
+    letter-spacing:4px;
+
+    color:var(--green);
+
+    margin-bottom:8px;
+}
+
+.hero h2{
+    font-family:'Orbitron';
+
+    font-size:clamp(25px,4vw,45px);
+
+    letter-spacing:2px;
+
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#7d7295;
+
+    max-width:500px;
+
+    font-size:15px;
+}
+
+.hero-button{
+    margin-top:20px;
+
+    padding:11px 20px;
+
+    border:1px solid var(--green);
+
+    border-radius:8px;
+
+    background:rgba(255,45,150,.07);
+
+    color:white;
+
+    font-family:'Orbitron';
+
+    font-size:10px;
+
+    letter-spacing:2px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.hero-button:hover{
+    background:var(--green);
+
+    color:#05010c;
+
+    box-shadow:
+        0 0 25px rgba(255,45,150,.32);
+}
+
+.hero-stats{
+    margin-top:18px;
+
+    display:flex;
+
+    gap:26px;
+}
+
+.hero-stat{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+}
+
+.hero-stat b{
+    font-family:'Orbitron';
+
+    font-size:18px;
+
+    color:var(--green);
+}
+
+.hero-stat span{
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    color:#5a4f6b;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+    margin-top:28px;
+}
+
+.section-header{
+    display:flex;
+
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.section-header h3{
+    font-family:'Orbitron';
+
+    font-size:14px;
+
+    letter-spacing:2px;
+}
+
+.section-header span{
+    margin-left:auto;
+
+    color:#5f5570;
+
+    font-size:12px;
+}
+
+.empty{
+    color:#5f5570;
+
+    font-size:14px;
+
+    padding:20px 5px;
+}
+
+/* =========================================================
+   MUSIC GRID
+========================================================= */
+
+.music-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(180px,1fr)
+        );
+
+    gap:15px;
+}
+
+.music-card{
+    background:rgba(9,4,17,.78);
+
+    border:1px solid rgba(255,45,150,.10);
+
+    border-radius:13px;
+
+    padding:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.music-card:hover{
+    transform:translateY(-4px);
+
+    border-color:rgba(255,45,150,.32);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35),
+        0 0 20px rgba(255,45,150,.05);
+}
+
+.music-card.playing{
+    border-color:var(--green);
+
+    box-shadow:
+        0 0 0 1px var(--green),
+        0 0 22px rgba(255,45,150,.18);
+}
+
+.cover{
+    aspect-ratio:1;
+
+    border-radius:9px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,45,150,.18),
+            rgba(0,180,255,.10)
+        );
+
+    border:1px solid rgba(255,255,255,.05);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.cover img{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    z-index:1;
+}
+
+.cover::before{
+    content:"";
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 0 30px rgba(255,45,150,.12);
+
+    animation:spin 8s linear infinite;
+
+    z-index:0;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.play-overlay{
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+
+    background:rgba(0,0,0,.4);
+
+    transition:.2s;
+
+    z-index:2;
+}
+
+.music-card:hover .play-overlay{
+    opacity:1;
+}
+
+.play-circle{
+    width:46px;
+    height:46px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    color:#05010c;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        0 0 25px rgba(255,45,150,.45);
+}
+
+/* =========================================================
+   FAVORITO
+========================================================= */
+
+.fav-btn{
+    position:absolute;
+
+    top:16px;
+    right:16px;
+
+    z-index:3;
+
+    width:30px;
+    height:30px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(6px);
+
+    color:#9a90b3;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    opacity:0;
+
+    transition:.2s;
+}
+
+.music-card:hover .fav-btn{
+    opacity:1;
+}
+
+.fav-btn.on{
+    opacity:1;
+
+    color:#ffd23f;
+
+    border-color:rgba(255,210,63,.5);
+
+    text-shadow:
+        0 0 10px rgba(255,210,63,.7);
+}
+
+
+/* O ★ continua aparecendo só no hover — mas em telas SEM hover
+   (celular/tablet) ele precisa ficar visível, senão não existiria. */
+
+@media(hover:none){
+
+    .fav-btn{
+        opacity:.9;
+    }
+
+}
+
+/* =========================================================
+   MUSIC INFO
+========================================================= */
+
+.music-info{
+    padding:12px 3px 4px;
+}
+
+.music-name{
+    font-weight:700;
+
+    font-size:16px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.artist{
+    color:#6a5f80;
+
+    font-size:12px;
+
+    margin-top:2px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.duration{
+    color:#526175;
+
+    font-size:10px;
+
+    margin-top:7px;
+}
+
+/* =========================================================
+   WIDE
+========================================================= */
+
+.music-card.wide{
+    grid-column:span 2;
+}
+
+.music-card.wide .music-name{
+    font-size:17px;
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.player{
+    height:90px;
+
+    flex-shrink:0;
+
+    border-top:1px solid rgba(255,45,150,.12);
+
+    background:rgba(2,1,6,.94);
+
+    backdrop-filter:blur(20px);
+
+    display:flex;
+
+    align-items:center;
+
+    padding:12px 22px;
+
+    gap:20px;
+
+    position:relative;
+
+    z-index:10;
+}
+
+.now-playing{
+    width:230px;
+
+    min-width:150px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.mini-cover{
+    width:54px;
+    height:54px;
+
+    flex-shrink:0;
+
+    border-radius:8px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,247,255,.2),
+            rgba(0,180,255,.12)
+        );
+
+    border:1px solid var(--border);
+}
+
+.mini-cover img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.song-details{
+    min-width:0;
+}
+
+.song-details strong{
+    display:block;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    font-size:14px;
+}
+
+.song-details span{
+    color:#6b5f80;
+
+    font-size:11px;
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+/* =========================================================
+   CONTROLES — teclas RETRÔ (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Visual de painel de toca-fitas: teclas de plástico escuro com
+   chanfro 3D (aresta clara em cima/esquerda, escura embaixo/
+   direita), grip texturizado, reflexo no alto e uma base sólida
+   que dá o relevo. No clique a tecla AFUNDA (translateY + sombra
+   interna). Os cantos já vêm retos pela regra global.
+========================================================= */
+
+.controls{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+/* ---------- teclas laterais (voltar / avançar) ---------- */
+
+.control{
+    position:relative;
+
+    flex:0 0 auto;
+
+    width:56px;
+    height:44px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+
+    line-height:1;
+
+    color:var(--pink-soft);
+
+    cursor:pointer;
+
+    /* plástico escuro com grip (listras finas) */
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.22) 0 1px,
+            transparent 1px 3px
+        ),
+        linear-gradient(
+            180deg,
+            #2b1836 0%,
+            #1a0d24 42%,
+            #120818 58%,
+            #1f1029 100%
+        );
+
+    border:1px solid #0a0410;
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.22),
+        inset -2px -2px 0 rgba(0,0,0,.85),
+        inset 0 -8px 10px rgba(0,0,0,.5),
+        0 4px 0 #060209,
+        0 7px 14px rgba(0,0,0,.65);
+
+    text-shadow:
+        0 0 8px rgba(255,45,150,.55);
+
+    transition:
+        transform .06s,
+        box-shadow .12s,
+        color .2s;
+}
+
+/* reflexo do plástico no alto da tecla */
+.control::before{
+    content:'';
+
+    position:absolute;
+
+    left:2px;
+    right:2px;
+    top:2px;
+
+    height:10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.2),
+            rgba(255,255,255,.02)
+        );
+
+    pointer-events:none;
+}
+
+.control:hover{
+    color:#fff;
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.3),
+        inset -2px -2px 0 rgba(0,0,0,.85),
+        inset 0 -8px 10px rgba(0,0,0,.5),
+        0 4px 0 #060209,
+        0 9px 18px rgba(255,45,150,.38);
+
+    text-shadow:
+        0 0 12px rgba(255,45,150,.95);
+}
+
+/* clique: a tecla afunda */
+.control:active{
+    transform:translateY(4px);
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.06),
+        inset -2px -2px 0 rgba(0,0,0,.7),
+        inset 0 6px 12px rgba(0,0,0,.88),
+        0 0 0 #060209,
+        0 1px 3px rgba(0,0,0,.55);
+}
+
+/* ---------- tecla central (play) ---------- */
+
+.control.main{
+    flex:0 0 auto;
+
+    width:66px;
+    height:52px;
+
+    font-size:20px;
+
+    color:#fff;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.2) 0 1px,
+            transparent 1px 3px
+        ),
+        linear-gradient(
+            180deg,
+            #3a1440 0%,
+            #220d2c 42%,
+            #150719 58%,
+            #2a1033 100%
+        );
+
+    border:1px solid #0a0410;
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.28),
+        inset -2px -2px 0 rgba(0,0,0,.88),
+        inset 0 -9px 12px rgba(0,0,0,.55),
+        0 4px 0 #060209,
+        0 8px 20px rgba(0,212,255,.3);
+
+    text-shadow:
+        0 0 12px rgba(0,212,255,.75);
+}
+
+.control.main:hover{
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.36),
+        inset -2px -2px 0 rgba(0,0,0,.88),
+        inset 0 -9px 12px rgba(0,0,0,.55),
+        0 4px 0 #060209,
+        0 10px 26px rgba(0,212,255,.5);
+
+    text-shadow:
+        0 0 16px rgba(0,212,255,1);
+}
+
+.control.main:active{
+    transform:translateY(4px);
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.08),
+        inset -2px -2px 0 rgba(0,0,0,.8),
+        inset 0 7px 14px rgba(0,0,0,.9),
+        0 0 0 #060209,
+        0 1px 3px rgba(0,0,0,.55);
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-area{
+    flex:1;
+
+    max-width:600px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#5f6e82;
+
+    font-size:10px;
+}
+
+.progress{
+    flex:1;
+
+    height:4px;
+
+    border-radius:5px;
+
+    background:#18212e;
+
+    cursor:pointer;
+
+    position:relative;
+}
+
+.progress-fill{
+    width:0%;
+
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--green),
+            var(--green2)
+        );
+
+    border-radius:5px;
+
+    box-shadow:
+        0 0 8px rgba(255,45,150,.45);
+}
+
+/* =========================================================
+   VOLUME — fader analógico (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Trilho escavado com escala de 11 marcas, nível preenchido
+   em gradiente azul→rosa (largura controlada por --vol, que o
+   setVolume() atualiza) e knob retangular com relevo, no
+   estilo de um fader de mixer.
+========================================================= */
+
+.volume{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-left:auto;
+}
+
+/* coluna: escala em cima, trilho embaixo */
+.volume .vol-track{
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:5px;
+
+    /* comprimento do fader (a pedido: 150px → 250px, mais curso
+       para regular o volume com precisão) */
+    width:250px;
+}
+
+/* marcas de escala — 11 traços (um a cada 10%) */
+.volume .vol-track::before{
+    content:'';
+
+    height:6px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,158,212,.75) 0 1px,
+            transparent 1px 10%
+        );
+}
+
+/* ---------- trilho ---------- */
+
+.volume input[type=range]{
+    -webkit-appearance:none;
+
+    appearance:none;
+
+    width:100%;
+
+    height:16px;
+
+    background:transparent;
+
+    cursor:pointer;
+}
+
+.volume input[type=range]::-webkit-slider-runnable-track{
+    height:16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue) 0%,
+            var(--pink) var(--vol,70%),
+            rgba(255,255,255,.05) var(--vol,70%),
+            rgba(255,255,255,.05) 100%
+        );
+
+    border:1px solid rgba(255,45,150,.32);
+
+    box-shadow:
+        inset 0 2px 7px rgba(0,0,0,.9),
+        inset 0 -1px rgba(255,255,255,.05),
+        0 0 14px rgba(255,45,150,.12);
+}
+
+/* ---------- knob (a "peça" que desliza) ---------- */
+
+.volume input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+
+    appearance:none;
+
+    width:19px;
+
+    height:32px;
+
+    margin-top:-8px;
+
+    background:
+        /* indicador de posição (risco ciano no meio) */
+        linear-gradient(
+            180deg,
+            transparent 0 44%,
+            rgba(0,212,255,.95) 44% 56%,
+            transparent 56% 100%
+        ),
+        /* grip: listras verticais */
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.5) 0 1px,
+            transparent 1px 4px
+        ),
+        /* corpo metálico */
+        linear-gradient(
+            180deg,
+            #33123c 0%,
+            #180a22 45%,
+            #0b0413 55%,
+            #230f2c 100%
+        );
+
+    border:1px solid var(--blue);
+
+    box-shadow:
+        0 0 12px rgba(0,212,255,.45),
+        inset 0 1px rgba(255,255,255,.22),
+        inset 0 -4px 5px rgba(0,0,0,.75),
+        0 2px 0 rgba(0,0,0,.85);
+}
+
+.volume input[type=range]::-webkit-slider-thumb:hover{
+    box-shadow:
+        0 0 20px rgba(0,212,255,.8),
+        inset 0 1px rgba(255,255,255,.3),
+        inset 0 -3px 4px rgba(0,0,0,.7);
+}
+
+/* ---------- Firefox ---------- */
+
+.volume input[type=range]::-moz-range-track{
+    height:16px;
+
+    background:#0b0413;
+
+    border:1px solid rgba(255,45,150,.32);
+
+    box-shadow:
+        inset 0 2px 7px rgba(0,0,0,.9);
+}
+
+.volume input[type=range]::-moz-range-progress{
+    height:16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--pink)
+        );
+
+    box-shadow:
+        0 0 12px rgba(255,45,150,.4);
+}
+
+.volume input[type=range]::-moz-range-thumb{
+    width:19px;
+
+    height:32px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #33123c,
+            #0b0413
+        );
+
+    border:1px solid var(--blue);
+
+    box-shadow:
+        0 0 12px rgba(0,212,255,.45);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .top-logo{
+        display:none;
+    }
+
+    .topbar{
+        gap:10px;
+    }
+
+    .search{
+        margin-left:0;
+    }
+}
+
+@media(max-width:800px){
+
+    .topbar{
+        min-height:64px;
+
+        padding:0 10px;
+
+        gap:7px;
+
+        flex-wrap:nowrap;
+    }
+
+    .top-nav{
+        gap:4px;
+    }
+
+    .nav-btn{
+        padding:9px 8px;
+
+        font-size:8px;
+
+        letter-spacing:.5px;
+    }
+
+    .search{
+        min-width:80px;
+
+        flex:1;
+    }
+
+    .search input{
+        padding-left:35px;
+
+        font-size:14px;
+    }
+
+    .search-icon{
+        left:11px;
+    }
+
+    .top-actions{
+        display:none;
+    }
+
+    .content{
+        padding:14px;
+    }
+
+    .hero{
+        min-height:230px;
+
+        padding:22px;
+    }
+
+    .hero::after{
+        opacity:.35;
+
+        right:-80px;
+    }
+
+    .hero h2{
+        font-size:25px;
+    }
+
+    .hero-stats{
+        gap:18px;
+    }
+
+    .music-grid{
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+
+        gap:10px;
+    }
+
+    .music-card.wide{
+        grid-column:span 2;
+    }
+
+    .music-card{
+        padding:7px;
+    }
+
+    .music-name{
+        font-size:14px;
+    }
+
+    .fav-btn{
+        opacity:1;
+
+        top:10px;
+        right:10px;
+    }
+
+    .player{
+        height:76px;
+
+        padding:8px 10px;
+
+        gap:8px;
+    }
+
+    .now-playing{
+        width:auto;
+
+        flex:1;
+    }
+
+    .mini-cover{
+        width:44px;
+        height:44px;
+    }
+
+    .progress-area,
+    .volume{
+        display:none;
+    }
+
+    .controls{
+        gap:2px;
+    }
+
+    .control{
+        width:32px;
+        height:32px;
+    }
+
+    .control.main{
+        width:40px;
+        height:40px;
+    }
+
+    .song-details strong{
+        font-size:12px;
+    }
+
+    .song-details span{
+        font-size:9px;
+    }
+}
+
+@media(max-width:500px){
+
+    .nav-btn{
+        padding:8px 6px;
+    }
+
+    .nav-btn:nth-child(2),
+    .nav-btn:nth-child(3){
+        font-size:0;
+    }
+
+    .nav-btn:nth-child(2)::after{
+        content:"◈";
+        font-size:15px;
+    }
+
+    .nav-btn:nth-child(3)::after{
+        content:"▦";
+        font-size:15px;
+    }
+
+    .search input{
+        font-size:13px;
+    }
+
+    .hero{
+        min-height:215px;
+    }
+
+    .hero p{
+        font-size:13px;
+    }
+
+    .hero-button{
+        padding:10px 14px;
+    }
+
+    .hero-stats{
+        gap:14px;
+    }
+
+    .hero-stat b{
+        font-size:15px;
+    }
+
+    .section{
+        margin-top:22px;
+    }
+
+    .music-grid{
+        gap:8px;
+    }
+
+    .music-card{
+        border-radius:10px;
+    }
+
+    .music-name{
+        font-size:13px;
+    }
+
+    .artist{
+        font-size:11px;
+    }
+}
+
+
+/* =========================================================
+   MODERN BLACK GLASS // GREEN EDITION
+========================================================= */
+
+body{
+    background:
+        radial-gradient(circle at 15% 10%, rgba(255,45,150,.075), transparent 28%),
+        radial-gradient(circle at 85% 85%, rgba(0,150,230,.055), transparent 30%),
+        linear-gradient(145deg,#000000,#050108 52%,#000000);
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 50% -10%,rgba(255,45,150,.045),transparent 35%),
+        linear-gradient(120deg,transparent 0%,rgba(255,255,255,.012) 50%,transparent 100%);
+    z-index:-1;
+}
+
+.topbar,
+.player{
+    background:rgba(3,1,8,.68) !important;
+    border-color:rgba(255,45,150,.12) !important;
+    backdrop-filter:blur(24px) saturate(150%);
+    -webkit-backdrop-filter:blur(24px) saturate(150%);
+}
+
+.nav-btn,
+.top-btn,
+.search input,
+.hero,
+.music-card,
+.control,
+.control.main{
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,45,150,.025)),
+        rgba(8,3,16,.52) !important;
+    border-color:rgba(255,45,150,.14) !important;
+    backdrop-filter:blur(18px) saturate(145%);
+    -webkit-backdrop-filter:blur(18px) saturate(145%);
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    border-color:rgba(255,45,150,.55) !important;
+    background:rgba(255,45,150,.075) !important;
+    box-shadow:0 0 22px rgba(255,45,150,.10);
+}
+
+.hero{
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.045),
+        0 18px 55px rgba(0,0,0,.25);
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(110deg,rgba(255,45,150,.055),transparent 42%),
+        radial-gradient(circle at 80% 50%,rgba(255,45,150,.09),transparent 30%);
+    pointer-events:none;
+}
+
+.hero::after{
+    border-color:rgba(255,45,150,.16) !important;
+    box-shadow:
+        0 0 55px rgba(255,45,150,.07),
+        inset 0 0 55px rgba(255,45,150,.045) !important;
+}
+
+.music-card{
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.025),
+        0 12px 35px rgba(0,0,0,.18);
+}
+
+.music-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,45,150,.42) !important;
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.04),
+        0 18px 42px rgba(0,0,0,.34),
+        0 0 28px rgba(255,45,150,.08);
+}
+
+.music-card.playing{
+    border-color:var(--green) !important;
+    box-shadow:
+        0 0 0 1px rgba(255,45,150,.45),
+        0 0 28px rgba(255,45,150,.16);
+}
+
+.cover{
+    background:
+        radial-gradient(circle at 30% 25%,rgba(138,255,191,.18),transparent 22%),
+        linear-gradient(145deg,rgba(255,45,150,.14),rgba(0,150,230,.055)) !important;
+}
+
+.play-circle{
+    background:var(--green) !important;
+    box-shadow:0 0 28px rgba(255,45,150,.42);
+}
+
+.control.main{
+    border-color:rgba(255,45,150,.48) !important;
+    box-shadow:
+        0 0 25px rgba(255,45,150,.20),
+        inset 0 0 16px rgba(255,45,150,.07);
+}
+
+.control.main:hover{
+    box-shadow:
+        0 0 36px rgba(255,45,150,.40),
+        inset 0 0 20px rgba(255,45,150,.12);
+}
+
+.progress-fill{
+    background:linear-gradient(90deg,var(--green2),var(--green)) !important;
+    box-shadow:0 0 9px rgba(255,45,150,.5);
+}
+
+.search input:focus{
+    border-color:rgba(255,45,150,.48) !important;
+    box-shadow:0 0 24px rgba(255,45,150,.08);
+}
+
+.scanlines{
+    /* sobreposição fixa em tela inteira custava recomposição do viewport a cada
+       frame do vídeo e o gradiente é quase invisível (alpha .008) — desligado
+       para não travar a interface durante a reprodução dos efeitos */
+    display:none;
+}
+
+/* =========================================================
+   PLAYER NO TOPO + TELA DE EFEITOS (100 x 450)
+========================================================= */
+
+.player-top{
+    height:auto !important;
+
+    /* a faixa de efeitos (400x100) é mais baixa que o corpo do player:
+       "flex-start" deixava um vazio grande embaixo dela — centralizar
+       verticalmente equilibra o conjunto */
+    align-items:center !important;
+
+    gap:22px !important;
+
+    padding:16px !important;
+
+    border:1px solid rgba(255,45,150,.16) !important;
+
+    /* fundo do box do player — SEM grade (a grade voltou para o fundo
+       principal da página, a pedido, 16/09/2026). As camadas de grade
+       que ficavam aqui foram movidas para `body::before`. */
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.03),
+            rgba(255,45,150,.012)
+        ),
+        /* base escura do box */
+        rgba(6,2,12,.76) !important;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    margin-bottom:26px;
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.04),
+        0 18px 50px rgba(0,0,0,.32);
+}
+
+/* ---------- tela de efeitos: 100 de ALTURA x 440 de COMPRIMENTO ---------- */
+
+.fx-screen{
+    position:relative;
+
+    width:440px;
+    height:100px;
+
+    min-width:440px;
+    min-height:100px;
+
+    /* flex:none (e não "0 0 100px"): no mobile o container vira coluna e o
+       flex-basis passaria a valer na ALTURA, colapsando a tela para 100x100 */
+    flex:none;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#01060a;
+
+    border:1px solid rgba(255,45,150,.3);
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 26px rgba(255,45,150,.16),
+        inset 0 0 30px rgba(0,0,0,.72);
+
+    transition:.2s;
+}
+
+.fx-screen:hover{
+    border-color:rgba(255,45,150,.6);
+
+    box-shadow:
+        0 0 34px rgba(255,45,150,.28),
+        inset 0 0 30px rgba(0,0,0,.72);
+}
+
+.fx-screen video{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+}
+
+/* scanlines locais removidas: forçavam repaint da tela do vídeo a cada frame */
+
+.fx-label{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:3px 3px 2px;
+
+    text-align:center;
+
+    font-size:7px;
+    letter-spacing:.6px;
+    text-transform:uppercase;
+
+    color:#ff9ed4;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.8),
+            transparent
+        );
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+    pointer-events:none;
+}
+
+/* ---------- corpo do player ---------- */
+
+.player-body{
+    flex:1;
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    gap:16px;
+}
+
+.player-top .now-playing{
+    width:auto;
+}
+
+.player-top .mini-cover{
+    width:96px;
+    height:96px;
+
+    border-radius:12px;
+}
+
+.player-top .song-details strong{
+    font-size:20px;
+}
+
+.player-top .song-details span{
+    font-size:12px;
+}
+
+.player-top .controls{
+    gap:12px;
+
+    justify-content:center;
+
+    flex:none;
+}
+
+/* ATENÇÃO: a classe "main" do botão play colide com o seletor .main
+   do layout (flex:1 / display:flex / flex-direction:column).
+   Sem fixar o flex, o botão estica por toda a largura.
+   O tamanho aqui precisa acompanhar a tecla retrô do bloco CONTROLES. */
+
+.player-top .control.main{
+    flex:0 0 auto;
+
+    width:66px;
+    height:52px;
+
+    flex-direction:row;
+}
+
+.player-top .progress-area{
+    max-width:none;
+
+    width:100%;
+
+    flex:none;
+}
+
+.player-top .volume{
+    margin-left:0;
+
+    justify-content:center;
+}
+
+/* ---------- mobile ---------- */
+
+@media(max-width:800px){
+
+    .player-top{
+        flex-direction:column;
+
+        gap:12px !important;
+
+        padding:12px !important;
+    }
+
+    .fx-screen{
+        width:100%;
+        max-width:440px;
+        height:100px;
+
+        min-width:0;
+        min-height:100px;
+
+        flex:none;
+    }
+
+    .player-top .player-body{
+        gap:12px;
+    }
+
+    .player-top .mini-cover{
+        width:56px;
+        height:56px;
+    }
+
+    .player-top .song-details strong{
+        font-size:15px;
+    }
+
+    .player-top .progress-area,
+    .player-top .volume{
+        display:flex;
+    }
+
+    .player-top .progress-area{
+        max-width:none;
+    }
+
+    .player-top .control{
+        width:40px;
+        height:40px;
+    }
+
+    .player-top .control.main{
+        width:50px;
+        height:50px;
+    }
+}
+
+/* =========================================================
+   PERFORMANCE — backdrop-filter
+   ---------------------------------------------------------
+   O blur é recalculado a cada frame. Com 28 cards + hero + nav +
+   botões todos com blur(18px), o navegador cai de 60 para ~10 FPS
+   (medido no navegador, 16/09/2026). Sobre o fundo escuro estático
+   o blur é visualmente imperceptível, então fica apenas nas duas
+   superfícies que realmente precisam do vidro: topbar e player.
+========================================================= */
+
+.nav-btn,
+.top-btn,
+.search input,
+.hero,
+.music-card,
+.fav-btn,
+.control,
+.control.main{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+}
+
+/* o .player contém o vídeo: com blur, cada frame do vídeo invalidava o
+   backdrop e derrubava o FPS (8 -> 15 só tirando dos cards). O vidro
+   visual continua vindo do background translúcido + borda. */
+
+.player{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+}
+
+@media(max-width:800px){
+    .topbar,
+    .player{
+        background:rgba(3,1,7,.82) !important;
+    }
+}
+
+/* =========================================================
+   BARRA DE NAVEGAÇÃO (abaixo do player)
+========================================================= */
+
+.toolbar{
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-bottom:24px;
+
+    padding:10px 12px;
+
+    border:1px solid rgba(255,45,150,.16);
+
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,45,150,.025)),
+        rgba(8,3,16,.52);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.04);
+}
+
+.tool-btn{
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 18px;
+
+    border:1px solid rgba(255,45,150,.2);
+
+    background:rgba(255,255,255,.04);
+
+    color:#ffc2e4;
+
+    font-family:'Rajdhani';
+
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.tool-btn:hover,
+.tool-btn.active{
+    border-color:rgba(255,45,150,.6);
+
+    background:rgba(255,45,150,.1);
+
+    color:#fff;
+
+    box-shadow:
+        0 0 18px rgba(255,45,150,.14);
+}
+
+.toolbar .search{
+    flex:1;
+
+    min-width:220px;
+
+    max-width:none;
+
+    margin-left:auto;
+}
+
+.upload-status{
+    font-family:'Rajdhani';
+
+    font-size:12px;
+
+    letter-spacing:.8px;
+
+    color:#ff9ed4;
+
+    max-width:340px;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.upload-status:empty{
+    display:none;
+}
+
+/* ---------- informações da biblioteca (linha abaixo da busca) ---------- */
+
+.tool-stats{
+    flex:1 1 100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:24px;
+
+    padding-top:10px;
+
+    border-top:1px solid rgba(255,45,150,.12);
+
+    font-family:'Rajdhani';
+
+    font-size:12px;
+
+    letter-spacing:1.4px;
+
+    text-transform:uppercase;
+
+    color:#ff9ed4;
+}
+
+.tool-stats:empty{
+    display:none;
+}
+
+.tool-stats span{
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+}
+
+.tool-stats b{
+    font-size:15px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px rgba(255,45,150,.45);
+}
+
+@media(max-width:800px){
+
+    .tool-stats{
+        gap:16px;
+
+        font-size:11px;
+
+        justify-content:center;
+    }
+
+    .tool-stats b{
+        font-size:13px;
+    }
+}
+
+/* ---------- botões da barra sempre na MESMA linha ---------- */
+
+@media(max-width:800px){
+
+    .toolbar{
+        gap:6px;
+
+        padding:8px;
+    }
+
+    /* os 3 botões (ÁLBUNS / PASTAS / UPLOAD) dividem a largura
+       igualmente na mesma linha, sem quebrar.
+       flex-basis de 30% (e não 0): com base 0 os 3 botões + a busca
+       (que tem base 100%) cabiam todos na mesma linha e os botões
+       eram esmagados até 38 px, cortando o texto. Com 30% cada,
+       3×30% = 90% cabem na linha 1 e a busca (100%) cai sozinha
+       na linha 2. */
+    .tool-btn{
+        flex:1 1 30%;
+
+        justify-content:center;
+
+        padding:10px 4px;
+
+        font-size:10px;
+
+        letter-spacing:.6px;
+
+        white-space:nowrap;
+    }
+
+    /* a busca fica numa linha própria, logo abaixo */
+    .toolbar .search{
+        flex:1 1 100%;
+
+        min-width:0;
+
+        margin-left:0;
+    }
+}
+
+.top-logo.clickable{
+    cursor:pointer;
+}
+
+.top-logo.clickable:hover h1{
+    text-shadow:
+        0 0 16px var(--green);
+}
+
+/* ---------- cards de pasta ---------- */
+
+.folder-card{
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px;
+
+    border:1px solid rgba(255,45,150,.16);
+
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,45,150,.025)),
+        rgba(8,3,16,.52);
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.folder-card:hover{
+    border-color:rgba(255,45,150,.5);
+
+    background:rgba(255,45,150,.075);
+
+    transform:translateY(-3px);
+}
+
+.folder-card .folder-ico{
+    font-size:24px;
+
+    line-height:1;
+
+    flex-shrink:0;
+}
+
+.folder-card .folder-info{
+    min-width:0;
+}
+
+.folder-card strong{
+    display:block;
+
+    font-size:13px;
+
+    color:#f7f2ff;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.folder-card span{
+    font-size:11px;
+
+    color:#6b5f80;
+}
+
+.folder-card.up{
+    border-color:rgba(255,255,255,.16);
+
+    background:rgba(255,255,255,.03);
+}
+
+@media(min-width:700px){
+
+    .folder-card{
+        grid-column:span 2;
+    }
+}
+
+/* =========================================================
+   TOPBAR SEM O BOX (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Depois que INÍCIO / ARTISTAS / ÁLBUNS e o buscador saíram,
+   a barra ficou um retângulo vazio no topo. Agora ela deixa de
+   ser um box: sem fundo, sem borda e sem altura mínima — só o
+   logo e os botões ◐ / ⚙ flutuando acima do player.
+========================================================= */
+
+.topbar{
+    min-height:auto !important;
+
+    padding:14px 25px 0 !important;
+
+    background:none !important;
+
+    border-bottom:none !important;
+
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+}
+
+/* =========================================================
+   CANTOS RETOS (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Zera todo border-radius do app: cards, capas, busca, barras
+   de progresso, tela de efeitos, chips e os botões do player
+   (que eram circulares). Para voltar aos cantos arredondados,
+   basta apagar este bloco.
+========================================================= */
+
+*,
+*::before,
+*::after{
+    border-radius:0 !important;
+}
+
+/* =========================================================
+   TEMA: PRETO + ROSA + AZUL (cyan) — a pedido, 16/09/2026
+   ---------------------------------------------------------
+   A base do arquivo foi convertida: fundo preto puro, acentos
+   rosa neon (--green = #ff2d96, --green2 = #00d4ff).
+   Este bloco põe os detalhes em AZUL por cima da base rosa.
+========================================================= */
+
+:root{
+    --pink:#ff2d96;
+    --pink-soft:#ff9ed4;
+    --blue:#00d4ff;
+    --blue-soft:#9fe8ff;
+}
+
+/* barra de progresso: azul → rosa */
+.progress-fill{
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--pink)
+        ) !important;
+
+    box-shadow:
+        0 0 10px rgba(0,212,255,.5);
+}
+
+/* botão play: o relevo/chanfro retrô é definido no bloco CONTROLES —
+   NÃO sobrescrever box-shadow aqui, senão o chanfro se perde */
+
+/* fundo da PÁGINA: só os brilhos do tema.
+   A GRADE saiu daqui e passou a viver DENTRO do box do player
+   (`.player-top`) — a pedido, 16/09/2026. */
+
+body::after{
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(0,140,255,.09),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 12% 105%,
+            rgba(255,45,150,.08),
+            transparent 42%
+        ) !important;
+}
+
+/* contadores da barra: azul */
+.tool-stats b{
+    color:var(--blue-soft);
+
+    text-shadow:
+        0 0 10px rgba(0,212,255,.5);
+}
+
+/* logo: ".MUSIC" em azul */
+.top-logo h1 span{
+    color:var(--blue);
+
+    text-shadow:
+        0 0 12px rgba(0,212,255,.65);
+}
+
+/* tela de efeitos: moldura ciano */
+.fx-screen{
+    border-color:rgba(0,212,255,.35) !important;
+
+    box-shadow:
+        0 0 26px rgba(0,212,255,.18),
+        inset 0 0 30px rgba(0,0,0,.72) !important;
+}
+
+.fx-screen:hover{
+    border-color:rgba(0,212,255,.7) !important;
+
+    box-shadow:
+        0 0 34px rgba(0,212,255,.3),
+        inset 0 0 30px rgba(0,0,0,.72) !important;
+}
+
+/* =========================================================
+   LOGO VISÍVEL EM QUALQUER TELA (16/09/2026)
+   ---------------------------------------------------------
+   O CSS original escondia o logo com `display:none` em telas
+   de até 1100px (celular, tablet e janelas médias) porque a
+   barra do topo tinha NAV + BUSCA disputando espaço.
+   Com a nav e a busca movidas para a barra abaixo do player,
+   sobrou só o logo e os botões ◐/⚙ — não há mais motivo para
+   escondê-lo.
+========================================================= */
+
+@media(max-width:1100px){
+
+    .top-logo{
+        display:flex !important;
+    }
+}
+
+@media(max-width:800px){
+
+    .top-logo h1{
+        font-size:13px;
+
+        letter-spacing:2px;
+    }
+
+    .top-logo small{
+        font-size:6px;
+
+        letter-spacing:1.2px;
+    }
+}
+
+/* =========================================================
+   RODAPÉ (a pedido, 16/09/2026)
+========================================================= */
+
+.site-footer{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:14px;
+
+    width:100%;
+
+    margin-top:46px;
+
+    padding:24px 16px 34px;
+
+    border-top:1px solid rgba(255,45,150,.16);
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:13px;
+
+    letter-spacing:3px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px rgba(255,45,150,.45);
+}
+
+.site-footer .footer-brand span{
+    color:var(--blue);
+
+    text-shadow:
+        0 0 12px rgba(0,212,255,.6);
+}
+
+.site-footer .footer-credit{
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:13px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    color:#8b8299;
+
+    text-shadow:none;
+}
+
+.site-footer .footer-credit b{
+    font-weight:600;
+
+    color:var(--pink);
+
+    text-shadow:
+        0 0 10px rgba(255,45,150,.55);
+}
+
+@media(max-width:800px){
+
+    .site-footer{
+        margin-top:30px;
+
+        padding:18px 12px 26px;
+
+        gap:9px;
+
+        font-size:11px;
+
+        letter-spacing:2px;
+    }
+
+    .site-footer .footer-credit{
+        font-size:11px;
+    }
+}
+
+/* =========================================================
+   BUSCA EM DESTAQUE COM ANIMAÇÃO (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   O campo ganha moldura ciano, brilho que "respira" e a lupa
+   pulsando junto. O pulso anima APENAS `opacity` de um
+   pseudo-elemento (o box-shadow fica estático), então o custo
+   por frame é mínimo e o FPS não cai. No foco, o destaque
+   troca para rosa aceso e para de pulsar.
+========================================================= */
+
+.search input{
+    border:1px solid rgba(0,212,255,.45) !important;
+
+    background:rgba(0,10,18,.45) !important;
+
+    color:#fff !important;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.search input::placeholder{
+    color:rgba(159,232,255,.72);
+}
+
+/* brilho pulsante em volta do campo */
+.search::after{
+    content:'';
+
+    position:absolute;
+
+    inset:0;
+
+    border:1px solid rgba(0,212,255,.9);
+
+    box-shadow:
+        0 0 18px rgba(0,212,255,.5),
+        inset 0 0 14px rgba(0,212,255,.08);
+
+    pointer-events:none;
+
+    animation:searchPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes searchPulse{
+
+    0%,100%{ opacity:.22; }
+
+    50%{ opacity:1; }
+
+}
+
+/* a lupa pulsa junto com o brilho */
+.search-icon{
+    color:var(--blue) !important;
+
+    animation:searchIconPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes searchIconPulse{
+
+    0%,100%{
+        opacity:.65;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.18);
+    }
+
+}
+
+/* foco: rosa aceso, sem pulso */
+.search input:focus{
+    border-color:rgba(255,45,150,.9) !important;
+
+    box-shadow:
+        0 0 26px rgba(255,45,150,.32) !important;
+}
+
+.search:focus-within::after{
+    animation:none;
+
+    opacity:1;
+
+    border-color:rgba(255,45,150,.9);
+
+    box-shadow:
+        0 0 22px rgba(255,45,150,.45),
+        inset 0 0 16px rgba(255,45,150,.1);
+}
+
+/* respeita "reduzir animações" do sistema */
+@media(prefers-reduced-motion:reduce){
+
+    .search::after,
+    .search-icon{
+        animation:none;
+    }
+
+    .search::after{
+        opacity:.7;
+    }
+}
+
+/* (o botão VOLTAR que ficava aqui foi substituído pelo GESTO DE SWIPE —
+   arrastar o dedo para a direita volta um nível; a lógica está no
+   bloco "SWIPE PARA VOLTAR" do JavaScript, 16/09/2026) */
+
+/* =========================================================
+   PASTA YOUTUBE — painel de download (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Input de link + barra de progresso. Mesma linguagem visual do
+   resto: cantos retos, ciano/rosa e teclas com relevo.
+========================================================= */
+
+.yt-panel{
+    margin:0 0 18px;
+
+    padding:16px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,45,150,.05),
+            rgba(0,180,255,.03)
+        ),
+        rgba(4,1,10,.62);
+
+    border:1px solid rgba(0,212,255,.28);
+
+    box-shadow:
+        inset 0 0 22px rgba(0,212,255,.05),
+        0 0 18px rgba(0,0,0,.5);
+}
+
+.yt-head{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:13px;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:12px;
+
+    letter-spacing:2px;
+
+    color:#fff;
+}
+
+.yt-ico{
+    color:var(--green);
+
+    font-size:14px;
+
+    text-shadow:0 0 10px var(--green);
+}
+
+.yt-hint{
+    margin-left:auto;
+
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:11px;
+
+    letter-spacing:1px;
+
+    color:rgba(190,205,225,.55);
+}
+
+.yt-row{
+    display:flex;
+
+    gap:10px;
+
+    align-items:stretch;
+}
+
+.yt-input{
+    flex:1 1 auto;
+
+    min-width:0;
+
+    padding:11px 14px;
+
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:14px;
+
+    color:#fff;
+
+    background:rgba(0,0,0,.42);
+
+    border:1px solid rgba(0,212,255,.35);
+
+    outline:none;
+
+    transition:
+        border-color .2s,
+        box-shadow .2s;
+}
+
+.yt-input:focus{
+    border-color:rgba(255,45,150,.85);
+
+    box-shadow:0 0 18px rgba(255,45,150,.28);
+}
+
+.yt-input::placeholder{
+    color:rgba(159,232,255,.5);
+}
+
+.yt-btn{
+    flex:none;
+
+    padding:11px 18px;
+
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:1.8px;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            180deg,
+            #2a0f28,
+            #170618
+        );
+
+    border:1px solid rgba(255,45,150,.5);
+
+    box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.14),
+        inset -1px -1px 0 rgba(0,0,0,.7),
+        0 2px 0 #060209;
+
+    transition:
+        transform .08s,
+        box-shadow .15s,
+        color .2s;
+}
+
+.yt-btn:hover:not(:disabled){
+    color:#fff;
+
+    border-color:var(--green);
+
+    box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.2),
+        inset -1px -1px 0 rgba(0,0,0,.7),
+        0 2px 0 #060209,
+        0 0 16px rgba(255,45,150,.4);
+}
+
+.yt-btn:active:not(:disabled){
+    transform:translateY(2px);
+
+    box-shadow:
+        inset 0 3px 7px rgba(0,0,0,.85);
+}
+
+.yt-btn:disabled{
+    opacity:.45;
+
+    cursor:not-allowed;
+}
+
+/* barra de progresso */
+.yt-bar{
+    position:relative;
+
+    height:14px;
+
+    margin:14px 0 10px;
+
+    background:rgba(0,0,0,.55);
+
+    border:1px solid rgba(0,212,255,.2);
+
+    overflow:hidden;
+}
+
+.yt-fill{
+    height:100%;
+
+    width:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--green2),
+            var(--green)
+        );
+
+    box-shadow:0 0 14px rgba(0,212,255,.5);
+
+    transition:width .3s ease;
+}
+
+.yt-pct{
+    position:absolute;
+
+    right:8px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:9px;
+
+    letter-spacing:1px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 6px #000,
+        0 0 3px #000;
+}
+
+.yt-info{
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+
+    color:rgba(190,205,225,.65);
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.yt-info.ok{
+    color:var(--green2);
+}
+
+.yt-info.erro{
+    color:#ff5a5a;
+}
+
+@media(max-width:800px){
+
+    .yt-row{
+        flex-direction:column;
+    }
+
+    .yt-hint{
+        display:none;
+    }
+}
+
+/* =========================================================
+   CONVERSÃO — a barra ganha vida (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Na conversão o yt-dlp/ffmpeg NÃO informa percentual (não existe
+   progresso real para ler), então a barra passa a ser
+   INDETERMINADA: listras diagonais correndo. É honesto — mostra
+   atividade sem inventar número — e o texto abaixo diz a etapa.
+========================================================= */
+
+.yt-bar.convertendo .yt-fill{
+    width:100% !important;
+
+    background:
+        repeating-linear-gradient(
+            115deg,
+            rgba(0,212,255,.92) 0 9px,
+            rgba(255,45,150,.92) 9px 18px
+        );
+
+    background-size:26px 100%;
+
+    animation:ytStripe .55s linear infinite;
+
+    box-shadow:
+        0 0 16px rgba(0,212,255,.55),
+        0 0 10px rgba(255,45,150,.35);
+}
+
+@keyframes ytStripe{
+
+    from{
+        background-position:0 0;
+    }
+
+    to{
+        background-position:26px 0;
+    }
+
+}
+
+/* o número fica mais forte para acompanhar as listras */
+
+.yt-bar.convertendo .yt-pct{
+    color:#fff;
+
+    text-shadow:
+        0 0 7px #000,
+        0 0 4px #000;
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .yt-bar.convertendo .yt-fill{
+        animation:none;
+    }
+}
+
+/* =========================================================
+   AGORA TOCANDO — mini-player fixo (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   O player tem 220px e ROLA junto com a página: ao descer para
+   escolher uma música, ele sai da tela e o usuário não vê o nome
+   do que está tocando. Deixá-lo fixo ocuparia 35% da tela do
+   celular — então este mini-player APARECE só quando o player
+   verdadeiro sai de vista (e some quando ele volta).
+
+   Toque nele para ir direto ao player.
+========================================================= */
+
+.agora-tocando{
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+
+    z-index:60;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:10px 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(8,2,16,.97),
+            rgba(3,1,8,.97)
+        );
+
+    border-bottom:1px solid rgba(0,212,255,.45);
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,.85),
+        0 1px 0 rgba(255,45,150,.35);
+
+    cursor:pointer;
+
+    /* escondido por padrão: só entra quando o player sai de vista */
+    transform:translateY(-110%);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:
+        transform .22s ease,
+        opacity .22s ease;
+}
+
+.agora-tocando.visivel{
+    transform:translateY(0);
+
+    opacity:1;
+
+    pointer-events:auto;
+}
+
+.agora-tocando .at-icone{
+    flex:0 0 auto;
+
+    width:34px;
+    height:34px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--green2);
+
+    font-size:15px;
+
+    background:rgba(0,212,255,.1);
+
+    border:1px solid rgba(0,212,255,.4);
+
+    animation:atPulso 2.4s ease-in-out infinite;
+}
+
+@keyframes atPulso{
+
+    0%,100%{ opacity:.65; }
+
+    50%    { opacity:1; }
+
+}
+
+.agora-tocando .at-texto{
+    flex:1 1 auto;
+
+    min-width:0;
+
+    line-height:1.25;
+}
+
+.agora-tocando .at-nome{
+    display:block;
+
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#fff;
+
+    /* uma linha só, com reticências, para o nome longo não empurrar */
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.agora-tocando .at-artista{
+    display:block;
+
+    font-size:11px;
+
+    letter-spacing:.6px;
+
+    color:rgba(255,255,255,.55);
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.agora-tocando .at-play{
+    flex:0 0 auto;
+
+    width:40px;
+    height:34px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:15px;
+
+    color:var(--green2);
+
+    background:rgba(0,212,255,.12);
+
+    border:1px solid rgba(0,212,255,.45);
+
+    cursor:pointer;
+
+    box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.14),
+        inset -1px -1px 0 rgba(0,0,0,.6);
+}
+
+.agora-tocando .at-play:active{
+    transform:translateY(2px);
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .agora-tocando{
+        transition:none;
+    }
+
+    .agora-tocando .at-icone{
+        animation:none;
+    }
+
+}
+/* =========================================================
+   FAVORITOS + UPLOAD NA PASTA (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   O botão da toolbar virou ★ FAVORITOS (antes era UPLOAD).
+   Aqui ficam: a mensagem de "nenhum favorito ainda" e o cartão
+   de envio que passou a morar dentro da pasta UPLOAD.
+========================================================= */
+
+.fav-vazio{
+    grid-column:1/-1;
+
+    width:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:44px 20px;
+
+    text-align:center;
+
+    border:1px dashed rgba(0,212,255,.3);
+
+    background:rgba(0,212,255,.03);
+}
+
+.fav-vazio-icone{
+    font-size:34px;
+
+    color:#ffd23f;
+
+    text-shadow:
+        0 0 18px rgba(255,210,63,.6);
+
+    animation:atPulso 2.6s ease-in-out infinite;
+}
+
+.fav-vazio-titulo{
+    font-family:'Rajdhani',sans-serif;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    letter-spacing:1.6px;
+
+    color:rgba(255,255,255,.92);
+}
+
+.fav-vazio-dica{
+    font-size:12px;
+
+    line-height:1.6;
+
+    color:rgba(255,255,255,.5);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="scanlines"></div>
+
+<div class="app">
+
+<main class="main">
+
+<!-- =====================================================
+     AGORA TOCANDO (mini-player fixo)
+     -----------------------------------------------------
+     O player de verdade rola junto com a página; quando ele
+     sai de vista (ao descer para escolher a próxima música),
+     este aparece no topo com o NOME da faixa e o play/pause.
+     Ele some sozinho quando o player volta à tela.
+     Tocar nele leva direto ao player.
+===================================================== -->
+
+<div
+    class="agora-tocando"
+    id="agoraTocando"
+    onclick="voltarAoPlayer()">
+
+    <div class="at-icone">♪</div>
+
+    <div class="at-texto">
+
+        <span class="at-nome" id="atNome">Nenhuma música</span>
+
+        <span class="at-artista" id="atArtista">NEXUS MUSIC</span>
+
+    </div>
+
+    <button
+        class="at-play"
+        id="atPlay"
+        title="Tocar / pausar"
+        onclick="event.stopPropagation();togglePlay()">▶</button>
+
+</div>
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="topbar">
+
+    <div
+        class="top-logo clickable"
+        onclick="renderHome()"
+        title="Início">
+        <h1>NEXUS<span>.MUSIC</span></h1>
+        <small>CYBER MEDIA SERVER</small>
+    </div>
+
+    <div class="top-actions">
+
+        <button class="top-btn">
+            ◐
+        </button>
+
+        <button class="top-btn">
+            ⚙
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div class="content" id="content">
+
+<!-- =====================================================
+     PLAYER NO TOPO + TELA DE EFEITOS
+===================================================== -->
+
+<div
+    class="player player-top"
+    id="playerTop">
+
+    <div
+        class="fx-screen"
+        id="fxScreen"
+        onclick="nextEffect()"
+        title="Trocar efeito">
+
+        <video
+            id="fxVideo"
+            muted
+            loop
+            autoplay
+            playsinline
+            preload="auto">
+        </video>
+
+    </div>
+
+
+    <div class="player-body">
+
+        <div class="now-playing">
+
+            <div class="song-details">
+
+                <strong id="currentSong">
+                    Nenhuma música
+                </strong>
+
+                <span id="currentArtist">
+                    NEXUS MUSIC
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button
+                class="control"
+                onclick="prevSong()"
+                title="Anterior">
+                ↶
+            </button>
+
+            <button
+                class="control main"
+                id="playButton"
+                onclick="togglePlay()"
+                title="Play/Pause">
+                ▶
+            </button>
+
+            <button
+                class="control"
+                onclick="nextSong()"
+                title="Próxima">
+                ↷
+            </button>
+
+        </div>
+
+
+        <div class="progress-area">
+
+            <span id="timeCur">
+                00:00
+            </span>
+
+            <div
+                class="progress"
+                id="progress"
+                onclick="seekTo(event)">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+            <span id="timeTotal">
+                00:00
+            </span>
+
+        </div>
+
+
+        <div class="volume">
+
+            <div class="vol-track">
+
+                <input
+                    type="range"
+                    id="volume"
+                    min="0"
+                    max="100"
+                    value="70"
+                    style="--vol:70%"
+                    oninput="setVolume(this.value)">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BARRA DE NAVEGAÇÃO (abaixo do player)
+===================================================== -->
+
+<div class="toolbar">
+
+    <button
+        class="tool-btn"
+        data-view="albuns">
+        ▦ ÁLBUNS
+    </button>
+
+    <button
+        class="tool-btn"
+        onclick="renderFolders([])">
+        🗂 PASTAS
+    </button>
+
+    <button
+        class="tool-btn"
+        id="btnFavoritos"
+        onclick="verFavoritos()"
+        title="Suas músicas favoritas (a estrela ★ dos cards)">
+        ★ FAVORITOS
+    </button>
+
+    <input
+        type="file"
+        id="uploadInput"
+        multiple
+        accept="audio/*,.mp3,.flac,.m4a,.ogg,.opus,.wav,.aac,.wma,image/*"
+        style="display:none"
+        onchange="doUpload(this)">
+
+    <span
+        class="upload-status"
+        id="uploadStatus">
+    </span>
+
+    <div class="search">
+
+        <span class="search-icon">⌕</span>
+
+        <input
+            id="search"
+            type="search"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="Buscar músicas, artistas ou álbuns..."
+            oninput="searchMusic()">
+
+    </div>
+
+    <div
+        class="tool-stats"
+        id="toolStats">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BAIXAR DO YOUTUBE — logo abaixo da busca
+     Aparece na PÁGINA PRINCIPAL e dentro da pasta YOUTUBE.
+     Cola o link e o servidor baixa o MP3 (yt-dlp) na pasta
+     MUSICAS/YOUTUBE, mostrando o progresso na barra.
+===================================================== -->
+
+<div
+    class="yt-panel"
+    id="ytPanel"
+    style="display:none">
+
+    <div class="yt-head">
+
+        <span class="yt-ico">▶</span>
+
+        <strong>BAIXAR DO YOUTUBE</strong>
+
+        <span class="yt-hint">
+            cola o link e baixa o áudio direto no celular
+        </span>
+
+    </div>
+
+
+    <div class="yt-row">
+
+        <input
+            type="url"
+            id="ytUrl"
+            class="yt-input"
+            placeholder="https://www.youtube.com/watch?v=..."
+            autocomplete="off"
+            spellcheck="false">
+
+        <button
+            class="yt-btn"
+            id="ytBtn"
+            onclick="ytBaixar()">
+            ⬇ BAIXAR
+        </button>
+
+    </div>
+
+
+    <div class="yt-bar">
+
+        <div
+            class="yt-fill"
+            id="ytFill">
+        </div>
+
+        <span
+            class="yt-pct"
+            id="ytPct">
+            0%
+        </span>
+
+    </div>
+
+
+    <div
+        class="yt-info"
+        id="ytInfo">
+        Aguardando um link…
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TRACKS
+===================================================== -->
+
+<section
+    class="section"
+    id="tracksSection">
+
+    <div class="section-header">
+
+        <h3 id="tracksTitle">
+            // MÚSICAS
+        </h3>
+
+        <span id="tracksCount"></span>
+
+    </div>
+
+
+    <div
+        class="music-grid"
+        id="musicGrid">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GÊNEROS
+===================================================== -->
+
+<section
+    class="section"
+    id="genresSection">
+
+    <div class="section-header">
+
+        <h3>
+            // GÊNEROS
+        </h3>
+
+        <span id="genresCount"></span>
+
+    </div>
+
+    <div
+        class="music-grid"
+        id="genresGrid">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ÁLBUNS
+===================================================== -->
+
+<section
+    class="section"
+    id="albumsSection">
+
+    <div class="section-header">
+
+        <h3>
+            // ÁLBUNS
+        </h3>
+
+        <span id="albumsCount"></span>
+
+    </div>
+
+    <div
+        class="music-grid"
+        id="albumsGrid">
+    </div>
+
+</section>
+
+<!-- =====================================================
+     RODAPÉ
+===================================================== -->
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        NEXUS<span>.MUSIC</span>
+    </div>
+
+    <div class="footer-credit">
+        by <b>Leandro</b>
+    </div>
+
+</footer>
+
+</div>
+
+
+
+</main>
+
+</div>
+
+
+<audio
+    id="audio"
+    preload="auto">
+</audio>
+
+
+<script>
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let lib={
+    tracks:[],
+    genres:[],
+    albums:[],
+    total:0
+};
+
+let queue=[];
+
+let qIndex=-1;
+
+let currentView='inicio';
+
+let searchMode=false;
+
+let viewData={
+    view:'inicio',
+    query:''
+};
+
+let lastTotal=-1;
+
+const audio=
+    document.getElementById('audio');
+
+const favKey=
+    'nexus_favs';
+
+let favs=new Set(
+    JSON.parse(
+        localStorage.getItem(favKey)||'[]'
+    )
+);
+
+
+/* =========================================================
+   LOAD API
+========================================================= */
+
+async function loadLib(){
+
+    try{
+
+        const r=
+            await fetch('/api/music');
+
+        lib=
+            await r.json();
+
+    }catch(e){
+
+        lib={
+            tracks:[],
+            genres:[],
+            albums:[],
+            total:0
+        };
+
+    }
+
+    renderHome();
+
+    lastTotal=lib.total;
+
+    updateStats();
+
+    const status=
+        document.getElementById(
+            'currentArtist'
+        );
+
+}
+
+
+/* =========================================================
+   AUTO REFRESH
+========================================================= */
+
+async function refreshLibrary(){
+
+    let fresh;
+
+    try{
+
+        const r=
+            await fetch(
+                '/api/music?t='+Date.now()
+            );
+
+        fresh=
+            await r.json();
+
+    }catch(e){
+
+        return;
+
+    }
+
+    if(
+        fresh.total===
+        lastTotal
+    ){
+        return;
+    }
+
+    lastTotal=
+        fresh.total;
+
+    lib=
+        fresh;
+
+    updateStats();
+
+    if(!searchMode){
+
+        const vd=
+            viewData.view;
+
+        if(vd==='inicio'){
+
+            renderHome();
+
+        }else if(vd==='todas'){
+
+            renderTracks(
+                lib.tracks,
+                '// TODAS AS MÚSICAS'
+            );
+
+        }else if(vd==='artistas'){
+
+            renderArtists();
+
+        }else if(vd==='albuns'){
+
+            renderAlbums();
+
+        }else if(vd==='favoritos'){
+
+            renderTracks(
+                favTracks(),
+                '// FAVORITOS'
+            );
+
+        }else if(vd==='genero'){
+
+            renderTracks(
+                lib.tracks.filter(
+                    t=>t.genre===viewData.query
+                ),
+                '// '+viewData.query
+            );
+
+        }else if(vd==='album'){
+
+            renderTracks(
+                lib.tracks.filter(
+                    t=>
+                        t.genre===viewData.g &&
+                        t.album===viewData.query
+                ),
+                '// '+viewData.query
+            );
+
+        }else if(vd==='artista'){
+
+            renderTracks(
+                lib.tracks.filter(
+                    t=>t.artist===viewData.query
+                ),
+                '// '+viewData.query
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+setInterval(
+    refreshLibrary,
+    30000
+);
+
+document.addEventListener(
+    'visibilitychange',
+    ()=>{
+
+        if(!document.hidden){
+
+            refreshLibrary();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+/* delegação no documento: os botões de view agora vivem na barra abaixo do player */
+
+document
+    .addEventListener(
+        'click',
+        e=>{
+
+            const btn=
+                e.target.closest(
+                    'button[data-view]'
+                );
+
+            if(!btn)return;
+
+            const view=
+                btn.dataset.view;
+
+            document
+                .querySelectorAll(
+                    '.tool-btn'
+                )
+                .forEach(
+                    b=>
+                        b.classList.remove(
+                            'active'
+                        )
+                );
+
+            btn.classList.add('active');
+
+
+            if(view==='inicio'){
+
+                renderHome();
+
+            }else if(view==='artistas'){
+
+                renderArtists();
+
+            }else if(view==='albuns'){
+
+                renderAlbums();
+
+            }
+
+
+            viewData={
+                view:view,
+                query:''
+            };
+
+            searchMode=false;
+
+            currentView=view;
+
+            window.location.hash=view;
+
+        }
+    );
+
+
+/* =========================================================
+   FAVORITOS
+========================================================= */
+
+/* =========================================================
+   PERSISTÊNCIA DOS FAVORITOS (corrigido em 16/09/2026)
+   ---------------------------------------------------------
+   O `localStorage` é separado por ORIGEM — protocolo + host +
+   **PORTA**. No app Android o servidor local chegou a subir numa
+   porta sorteada a cada abertura, então cada sessão enxergava um
+   localStorage diferente e os FAVORITOS PARECIAM SUMIR.
+
+   Correção em duas frentes:
+     1. o app agora usa porta FIXA (origem estável);
+     2. os favoritos também vão para um ARQUIVO do app, via
+        `/api/favs` — assim valem mesmo que a origem mude.
+
+   No servidor web (Python) a rota não existe: o fetch devolve 404
+   e o localStorage continua sendo a única fonte, como sempre foi.
+========================================================= */
+
+/** Manda a lista atual para o app guardar em arquivo. */
+function salvarFavoritosNoServidor(){
+
+    try{
+
+        fetch('/api/favs',{
+
+            method:'POST',
+
+            headers:{
+                'Content-Type':'application/json'
+            },
+
+            body:JSON.stringify(
+                [...favs]
+            )
+
+        }).catch(
+            ()=>{}
+        );
+
+    }catch(e){}
+
+}
+
+
+/**
+ * Ao abrir, junta o que está guardado no app com o que o navegador tem.
+ * Se o app não tiver nada mas o navegador tiver, sobe o do navegador.
+ */
+async function carregarFavoritos(){
+
+    try{
+
+        const r=
+            await fetch('/api/favs?t='+Date.now());
+
+        if(!r.ok) return;
+
+        const lista=
+            await r.json();
+
+        if(Array.isArray(lista)&&lista.length){
+
+            lista.forEach(
+                u=>favs.add(u)
+            );
+
+        }else if(favs.size){
+
+            salvarFavoritosNoServidor();
+
+        }
+
+    }catch(e){}
+
+}
+
+
+function favTracks(){
+
+    return lib.tracks.filter(
+        t=>favs.has(t.url)
+    );
+
+}
+
+
+/* =========================================================
+   HASH
+========================================================= */
+
+window.addEventListener(
+    'hashchange',
+    ()=>{
+
+        const v=
+            window.location.hash.replace(
+                '#',
+                ''
+            );
+
+        if(!v)return;
+
+        const btn=
+            document.querySelector(
+                '.tool-btn[data-view="'+v+'"]'
+            );
+
+        if(btn){
+
+            btn.click();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome(){
+
+    currentView='inicio';
+
+    searchMode=false;
+
+    viewData={
+        view:'inicio',
+        query:''
+    };
+
+    document
+        .getElementById('search')
+        .value='';
+
+
+    const tracks=
+        lib.tracks;
+
+
+    document
+        .getElementById(
+            'genresSection'
+        )
+        .style.display='';
+
+
+    document
+        .getElementById(
+            'albumsSection'
+        )
+        .style.display='';
+
+
+    /* HERO STATS — o box do hero foi removido da página; só monta se existir */
+
+    const heroStatsEl=
+        document.getElementById(
+            'heroStats'
+        );
+
+
+    if(heroStatsEl){
+
+        heroStatsEl.innerHTML=
+
+            '<div class="hero-stat">'+
+                '<b>'+
+                    lib.total+
+                '</b>'+
+                '<span>TRACKS</span>'+
+            '</div>'+
+
+            '<div class="hero-stat">'+
+                '<b>'+
+                    lib.genres.length+
+                '</b>'+
+                '<span>GÊNEROS</span>'+
+            '</div>'+
+
+            '<div class="hero-stat">'+
+                '<b>'+
+                    lib.albums.length+
+                '</b>'+
+                '<span>ÁLBUNS</span>'+
+            '</div>';
+
+    }
+
+
+    /* AS 8 ÚLTIMAS ADICIONADAS DE VERDADE
+       ---------------------------------------------------------
+       O servidor entrega as faixas em ordem alfabética, então
+       `tracks.slice(0,12)` mostrava os 12 primeiros nomes — nada
+       a ver com "recentemente adicionadas". Aqui a lista é
+       ordenada pela data de adição (`added`, o mtime do arquivo)
+       do mais novo para o mais antigo e cortada em 8 (era 4; o
+       usuário baixa muita coisa do YouTube e quis ver mais). */
+
+    renderTracks(
+
+        [...tracks]
+
+            .sort(
+                (a,b)=>
+                    (b.added||0)-
+                    (a.added||0)
+            )
+
+            .slice(0,8),
+
+        '// RECENTEMENTE ADICIONADAS'
+
+    );
+
+
+    /* O painel de baixar do YouTube entra DEPOIS do renderTracks —
+       ele esconde o painel por padrão, então a ordem importa.
+       Assim a página principal também oferece o download (16/09/2026). */
+
+    mostrarYtPainel(true);
+
+
+    /* GÊNEROS */
+
+    document
+        .getElementById(
+            'genresCount'
+        )
+        .textContent=
+            String(
+                lib.genres.length
+            ).padStart(2,'0');
+
+
+    document
+        .getElementById(
+            'genresGrid'
+        )
+        .innerHTML=
+
+        lib.genres.map(
+            g=>
+
+                '<article '+
+                    'class="music-card wide" '+
+                    'onclick="genreClick(\''+
+                        esc(g.name)+
+                    '\')">'+
+
+                    '<div class="cover">'+
+
+                        coverImg(g.cover)+
+
+                        '<div class="play-overlay">'+
+
+                            '<div class="play-circle">'+
+                                '▶'+
+                            '</div>'+
+
+                        '</div>'+
+
+                    '</div>'+
+
+                    '<div class="music-info">'+
+
+                        '<div class="music-name">'+
+                            esc(g.name)+
+                        '</div>'+
+
+                        '<div class="artist">'+
+                            g.count+
+                            ' músicas'+
+                        '</div>'+
+
+                    '</div>'+
+
+                '</article>'
+
+        ).join('')||
+
+        '<div class="empty">'+
+            'Nenhum gênero encontrado'+
+        '</div>';
+
+
+    /* ÁLBUNS */
+
+    document
+        .getElementById(
+            'albumsCount'
+        )
+        .textContent=
+            String(
+                lib.albums.length
+            ).padStart(2,'0');
+
+
+    document
+        .getElementById(
+            'albumsGrid'
+        )
+        .innerHTML=
+
+        lib.albums.map(
+            a=>
+
+                '<article '+
+                    'class="music-card" '+
+                    'onclick="albumClick(\''+
+                        esc(a.genre)+
+                        '\',\''+
+                        esc(a.name)+
+                    '\')">'+
+
+                    '<div class="cover">'+
+
+                        coverImg(a.cover)+
+
+                        '<div class="play-overlay">'+
+
+                            '<div class="play-circle">'+
+                                '▶'+
+                            '</div>'+
+
+                        '</div>'+
+
+                    '</div>'+
+
+                    '<div class="music-info">'+
+
+                        '<div class="music-name">'+
+                            esc(a.name)+
+                        '</div>'+
+
+                        '<div class="artist">'+
+                            esc(a.genre)+
+                            ' · '+
+                            a.count+
+                            ' músicas'+
+                        '</div>'+
+
+                    '</div>'+
+
+                '</article>'
+
+        ).join('')||
+
+        '<div class="empty">'+
+            'Nenhum álbum encontrado'+
+        '</div>';
+
+
+    document
+        .getElementById('content')
+        .scrollTop=0;
+
+}
+
+
+/* =========================================================
+   TRACKS
+========================================================= */
+
+function renderTracks(
+    tracks,
+    title
+){
+
+    searchMode=false;
+
+
+    /* o painel de download só existe dentro da pasta YOUTUBE */
+
+    mostrarYtPainel(false);
+
+
+    document
+        .getElementById(
+            'genresSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'albumsSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'tracksTitle'
+        )
+        .textContent=title;
+
+
+    document
+        .getElementById(
+            'tracksCount'
+        )
+        .textContent=
+
+            String(
+                tracks.length
+            ).padStart(2,'0')+
+            ' TRACKS';
+
+
+    const grid=
+        document.getElementById(
+            'musicGrid'
+        );
+
+
+    if(!tracks.length){
+
+        grid.innerHTML=
+            '<div class="empty">'+
+                'Nenhuma música encontrada'+
+            '</div>';
+
+        queue=[];
+
+        return;
+
+    }
+
+
+    queue=tracks;
+
+
+    grid.innerHTML=
+        tracks.map(
+            (t,index)=>{
+
+                return (
+
+                    '<article '+
+                        'class="music-card" '+
+                        'data-url="'+
+                            esc(t.url)+
+                        '" '+
+                        'onclick="queueClick('+
+                            index+
+                        ')">'+
+
+
+                        '<button '+
+                            'class="fav-btn '+
+                            (
+                                favs.has(t.url)
+                                ?'on'
+                                :''
+                            )+
+                            '" '+
+                            'onclick="toggleFav(event,\''+
+                                esc(t.url)+
+                            '\')">'+
+                            '★'+
+                        '</button>'+
+
+                        '<div class="cover">'+
+
+                            coverImg(t.cover)+
+
+                            '<div class="play-overlay">'+
+
+                                '<div class="play-circle">'+
+                                    '▶'+
+                                '</div>'+
+
+                            '</div>'+
+
+                        '</div>'+
+
+
+                        '<div class="music-info">'+
+
+                            '<div class="music-name">'+
+                                esc(t.title)+
+                            '</div>'+
+
+                            '<div class="artist">'+
+                                esc(t.artist)+
+                            '</div>'+
+
+                            '<div class="duration">'+
+                                esc(t.genre)+
+                            '</div>'+
+
+                        '</div>'+
+
+                    '</article>'
+
+                );
+
+            }
+        ).join('');
+
+
+    highlightCard();
+
+}
+
+
+/* =========================================================
+   ARTISTAS
+========================================================= */
+
+function renderArtists(){
+
+    /* telas que não são a principal nem a pasta YOUTUBE: sem o painel */
+
+    mostrarYtPainel(false);
+
+
+    const map=
+        new Map();
+
+
+    lib.tracks.forEach(
+        t=>{
+
+            const c=
+                map.get(t.artist)||
+                {
+                    name:t.artist,
+                    count:0,
+                    cover:t.cover
+                };
+
+
+            c.count++;
+
+
+            if(
+                !c.cover &&
+                t.cover
+            ){
+
+                c.cover=
+                    t.cover;
+
+            }
+
+
+            map.set(
+                t.artist,
+                c
+            );
+
+        }
+    );
+
+
+    const artists=
+        [...map.values()]
+            .sort(
+                (a,b)=>
+                    a.name.localeCompare(
+                        b.name
+                    )
+            );
+
+
+    searchMode=false;
+
+
+    document
+        .getElementById(
+            'genresSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'albumsSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'tracksTitle'
+        )
+        .textContent=
+            '// ARTISTAS';
+
+
+    document
+        .getElementById(
+            'tracksCount'
+        )
+        .textContent=
+            String(
+                artists.length
+            ).padStart(2,'0');
+
+
+    const grid=
+        document.getElementById(
+            'musicGrid'
+        );
+
+
+    queue=[];
+
+
+    grid.innerHTML=
+
+        artists.map(
+            a=>
+
+                '<article '+
+                    'class="music-card wide" '+
+                    'onclick="artistClick(\''+
+                        esc(a.name)+
+                    '\')">'+
+
+                    '<div class="cover">'+
+
+                        coverImg(a.cover)+
+
+                        '<div class="play-overlay">'+
+
+                            '<div class="play-circle">'+
+                                '▶'+
+                            '</div>'+
+
+                        '</div>'+
+
+                    '</div>'+
+
+                    '<div class="music-info">'+
+
+                        '<div class="music-name">'+
+                            esc(a.name)+
+                        '</div>'+
+
+                        '<div class="artist">'+
+                            a.count+
+                            ' músicas'+
+                        '</div>'+
+
+                    '</div>'+
+
+                '</article>'
+
+        ).join('')||
+
+        '<div class="empty">'+
+            'Nenhum artista encontrado'+
+        '</div>';
+
+}
+
+
+/* =========================================================
+   ÁLBUNS
+========================================================= */
+
+function renderAlbums(){
+
+    searchMode=false;
+
+
+    mostrarYtPainel(false);
+
+
+    document
+        .getElementById(
+            'genresSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'albumsSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'tracksTitle'
+        )
+        .textContent=
+            '// ÁLBUNS';
+
+
+    document
+        .getElementById(
+            'tracksCount'
+        )
+        .textContent=
+            String(
+                lib.albums.length
+            ).padStart(2,'0');
+
+
+    const grid=
+        document.getElementById(
+            'musicGrid'
+        );
+
+
+    queue=[];
+
+
+    grid.innerHTML=
+
+        lib.albums.map(
+            a=>
+
+                '<article '+
+                    'class="music-card" '+
+                    'onclick="albumClick(\''+
+                        esc(a.genre)+
+                        '\',\''+
+                        esc(a.name)+
+                    '\')">'+
+
+                    '<div class="cover">'+
+
+                        coverImg(a.cover)+
+
+                        '<div class="play-overlay">'+
+
+                            '<div class="play-circle">'+
+                                '▶'+
+                            '</div>'+
+
+                        '</div>'+
+
+                    '</div>'+
+
+                    '<div class="music-info">'+
+
+                        '<div class="music-name">'+
+                            esc(a.name)+
+                        '</div>'+
+
+                        '<div class="artist">'+
+                            esc(a.genre)+
+                            ' · '+
+                            a.count+
+                            ' músicas'+
+                        '</div>'+
+
+                    '</div>'+
+
+                '</article>'
+
+        ).join('')||
+
+        '<div class="empty">'+
+            'Nenhum álbum encontrado'+
+        '</div>';
+
+}
+
+
+/* =========================================================
+   GÊNERO
+========================================================= */
+
+function genreClick(name){
+
+    renderTracks(
+        lib.tracks.filter(
+            t=>t.genre===name
+        ),
+        '// '+name
+    );
+
+
+    viewData={
+        view:'genero',
+        query:name
+    };
+
+
+    document
+        .getElementById(
+            'content'
+        )
+        .scrollTop=0;
+
+}
+
+
+/* =========================================================
+   ÁLBUM
+========================================================= */
+
+function albumClick(
+    genre,
+    name
+){
+
+    renderTracks(
+        lib.tracks.filter(
+            t=>
+                t.genre===genre &&
+                t.album===name
+        ),
+        '// '+name
+    );
+
+
+    viewData={
+        view:'album',
+        g:genre,
+        query:name
+    };
+
+
+    document
+        .getElementById(
+            'content'
+        )
+        .scrollTop=0;
+
+}
+
+
+/* =========================================================
+   ARTISTA
+========================================================= */
+
+function artistClick(name){
+
+    renderTracks(
+        lib.tracks.filter(
+            t=>t.artist===name
+        ),
+        '// '+name
+    );
+
+
+    viewData={
+        view:'artista',
+        query:name
+    };
+
+
+    document
+        .getElementById(
+            'content'
+        )
+        .scrollTop=0;
+
+}
+
+
+/* =========================================================
+   PLAY
+========================================================= */
+
+function queueClick(i){
+
+    if(
+        i<0 ||
+        i>=queue.length
+    ){
+        return;
+    }
+
+
+    qIndex=i;
+
+    playTrack();
+
+}
+
+
+/* =========================================================
+   PLAY TRACK
+========================================================= */
+
+function playTrack(){
+
+    const t=
+        queue[qIndex];
+
+
+    if(!t)return;
+
+
+    audio.src=
+        t.url;
+
+
+    audio.play()
+        .catch(
+            ()=>{}
+        );
+
+
+    document
+        .getElementById(
+            'currentSong'
+        )
+        .textContent=
+            t.title;
+
+
+    document
+        .getElementById(
+            'currentArtist'
+        )
+        .textContent=
+            t.artist+
+            ' · '+
+            t.genre;
+
+
+    /* o mini-player fixo (que aparece quando o player sai de vista)
+       mostra a mesma informação — senão o usuário rola a página para
+       escolher a próxima música e perde o nome do que está tocando */
+
+    atualizarAgoraTocando(
+        t.title,
+        t.artist+' · '+t.genre
+    );
+
+
+    document
+        .getElementById(
+            'playButton'
+        )
+        .textContent='Ⅱ';
+
+
+    /* a capa do player foi removida — só mexe se o elemento existir,
+       senão o getElementById devolve null e o playTrack quebra */
+
+    const mc=
+        document.getElementById(
+            'miniCover'
+        );
+
+
+    if(mc){
+
+        mc.innerHTML=
+            coverImg(t.cover);
+
+
+        if(!t.cover){
+
+            mc.textContent='♪';
+
+        }
+
+    }
+
+
+    if(
+        'mediaSession'
+        in navigator
+    ){
+
+        navigator.mediaSession.metadata=
+            new MediaMetadata({
+
+                title:t.title,
+
+                artist:t.artist,
+
+                album:t.genre
+
+            });
+
+    }
+
+
+    highlightCard();
+
+
+    /* o efeito visual acompanha a música: troca a cada mudança de faixa
+       (playTrack é chamado pelo clique no card, next, prev e playAll) */
+
+    nextEffect();
+
+}
+
+
+/* =========================================================
+   AGORA TOCANDO (mini-player fixo)
+   ---------------------------------------------------------
+   O player tem 220px e ROLA junto com a página (é `position:
+   relative`). Ao descer para escolher a próxima música ele sai
+   da tela e o nome do que está tocando some — foi o que o
+   usuário relatou: "toquei uma música e não apareceu o nome".
+
+   Deixar o player inteiro fixo ocuparia 35% da tela do celular,
+   então este mini-player entra no topo SÓ quando o player sai
+   de vista, e desaparece quando ele volta.
+========================================================= */
+
+function atualizarAgoraTocando(nome,artista){
+
+    const n=
+        document.getElementById(
+            'atNome'
+        );
+
+    const a=
+        document.getElementById(
+            'atArtista'
+        );
+
+
+    if(n){
+
+        n.textContent=
+            nome||'Nenhuma música';
+
+    }
+
+
+    if(a){
+
+        a.textContent=
+            artista||'NEXUS MUSIC';
+
+    }
+
+}
+
+
+/** Mostra/esconde o mini-player conforme o player está (ou não) visível. */
+function atualizarMiniPlayer(){
+
+    const alvo=
+        document.querySelector(
+            '.player-top'
+        );
+
+    const mini=
+        document.getElementById(
+            'agoraTocando'
+        );
+
+    const cont=
+        document.querySelector(
+            '.content'
+        );
+
+
+    if(!alvo||!mini) return;
+
+
+    const base=
+        cont?
+            cont.getBoundingClientRect().top
+            :0;
+
+
+    const r=
+        alvo.getBoundingClientRect();
+
+
+    /* ainda há uma fatia útil do player na tela? */
+
+    const visivel=
+        (r.bottom-base)>60;
+
+
+    /* só faz sentido quando existe música carregada */
+
+    const temMusica=
+        !!audio.src;
+
+
+    mini.classList.toggle(
+        'visivel',
+        !visivel&&temMusica
+    );
+
+}
+
+
+/** Toque no mini-player: volta para o player de verdade. */
+function voltarAoPlayer(){
+
+    const cont=
+        document.querySelector(
+            '.content'
+        );
+
+
+    if(!cont) return;
+
+
+    try{
+
+        cont.scrollTo({
+            top:0,
+            behavior:'smooth'
+        });
+
+    }catch(e){
+
+        cont.scrollTop=0;
+
+    }
+
+}
+
+
+/** Mantém o botão do mini-player igual ao do player (▶ / Ⅱ). */
+function sincronizarBotaoMini(){
+
+    const b=
+        document.getElementById(
+            'atPlay'
+        );
+
+
+    if(!b) return;
+
+
+    b.textContent=
+        audio&&!audio.paused
+            ?'Ⅱ'
+            :'▶';
+
+}
+
+
+/* liga o mini-player (é leve: só reage ao scroll) */
+
+(function ligarAgoraTocando(){
+
+    const cont=
+        document.querySelector(
+            '.content'
+        );
+
+
+    if(cont){
+
+        cont.addEventListener(
+            'scroll',
+            atualizarMiniPlayer,
+            {
+                passive:true
+            }
+        );
+
+    }
+
+
+    window.addEventListener(
+        'resize',
+        atualizarMiniPlayer
+    );
+
+
+    if(audio){
+
+        audio.addEventListener(
+            'play',
+            ()=>{
+                sincronizarBotaoMini();
+                atualizarMiniPlayer();
+            }
+        );
+
+        audio.addEventListener(
+            'pause',
+            sincronizarBotaoMini
+        );
+
+    }
+
+
+    atualizarMiniPlayer();
+
+})();
+
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
+
+function togglePlay(){
+
+    if(!audio.src){
+
+        playAll();
+
+        return;
+
+    }
+
+
+    if(audio.paused){
+
+        audio.play()
+            .catch(
+                ()=>{}
+            );
+
+        document
+            .getElementById(
+                'playButton'
+            )
+            .textContent='Ⅱ';
+
+    }else{
+
+        audio.pause();
+
+        document
+            .getElementById(
+                'playButton'
+            )
+            .textContent='▶';
+
+    }
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextSong(){
+
+    if(!queue.length)return;
+
+
+    qIndex=
+        (qIndex+1)%
+        queue.length;
+
+
+    playTrack();
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function prevSong(){
+
+    if(!queue.length)return;
+
+
+    if(
+        audio.currentTime>3
+    ){
+
+        audio.currentTime=0;
+
+        return;
+
+    }
+
+
+    qIndex=
+        (qIndex-1+
+        queue.length)%
+        queue.length;
+
+
+    playTrack();
+
+}
+
+
+/* =========================================================
+   PLAY ALL
+========================================================= */
+
+function playAll(){
+
+    /* Toca a lista que está NA TELA — a pasta/álbum aberto, a busca, os
+       favoritos, etc.
+       ---------------------------------------------------------
+       ANTES: esta função SEMPRE trocava a view para "// TODAS AS MÚSICAS"
+       e re-renderizava a biblioteca inteira, sobrescrevendo a `queue`.
+       Como o ▶ do player chama playAll() quando não há faixa carregada,
+       quem estava com uma pasta aberta apertava play e começava a tocar a
+       PRIMEIRA faixa da biblioteca inteira — que é de OUTRA pasta.
+       AGORA: se existe fila (há algo na tela), toca essa fila do começo;
+       só cai para a biblioteca inteira quando não há fila nenhuma. */
+
+    if(queue.length){
+
+        qIndex=0;
+
+        playTrack();
+
+        return;
+
+    }
+
+
+    if(!lib.tracks.length){
+        return;
+    }
+
+
+    currentView='todas';
+
+
+    viewData={
+        view:'todas',
+        query:''
+    };
+
+
+    renderTracks(
+        lib.tracks,
+        '// TODAS AS MÚSICAS'
+    );
+
+
+    qIndex=0;
+
+
+    playTrack();
+
+}
+
+
+/* =========================================================
+   AUDIO EVENTS
+========================================================= */
+
+audio.addEventListener(
+    'ended',
+    nextSong
+);
+
+
+audio.addEventListener(
+    'timeupdate',
+    ()=>{
+
+        const fill=
+            document.getElementById(
+                'progressFill'
+            );
+
+        const cur=
+            document.getElementById(
+                'timeCur'
+            );
+
+        const tot=
+            document.getElementById(
+                'timeTotal'
+            );
+
+
+        if(audio.duration){
+
+            fill.style.width=
+                (
+                    audio.currentTime/
+                    audio.duration*
+                    100
+                )+
+                '%';
+
+
+            cur.textContent=
+                fmt(
+                    audio.currentTime
+                );
+
+
+            tot.textContent=
+                fmt(
+                    audio.duration
+                );
+
+        }
+
+    }
+);
+
+
+audio.addEventListener(
+    'loadedmetadata',
+    ()=>{
+
+        document
+            .getElementById(
+                'timeTotal'
+            )
+            .textContent=
+                fmt(
+                    audio.duration
+                );
+
+    }
+);
+
+
+audio.addEventListener(
+    'play',
+    ()=>{
+
+        document
+            .getElementById(
+                'playButton'
+            )
+            .textContent='Ⅱ';
+
+    }
+);
+
+
+audio.addEventListener(
+    'pause',
+    ()=>{
+
+        document
+            .getElementById(
+                'playButton'
+            )
+            .textContent='▶';
+
+    }
+);
+
+
+audio.addEventListener(
+    'error',
+    ()=>{
+
+        if(!audio.src)return;
+
+
+        document
+            .getElementById(
+                'currentArtist'
+            )
+            .textContent=
+                '⚠ FALHA NA REPRODUÇÃO';
+
+    }
+);
+
+
+/* =========================================================
+   SEEK
+========================================================= */
+
+function seekTo(e){
+
+    if(!audio.duration){
+        return;
+    }
+
+
+    const bar=
+        document.getElementById(
+            'progress'
+        );
+
+
+    const rect=
+        bar.getBoundingClientRect();
+
+
+    const pct=
+        (
+            e.clientX-
+            rect.left
+        )/
+        rect.width;
+
+
+    audio.currentTime=
+        Math.max(
+            0,
+            Math.min(
+                1,
+                pct
+            )
+        )*
+        audio.duration;
+
+}
+
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+function setVolume(v){
+
+    audio.volume=
+        v/100;
+
+
+    /* o fader analógico desenha o nível preenchido com --vol */
+
+    const el=
+        document.getElementById(
+            'volume'
+        );
+
+    if(el){
+
+        el.value=
+            v;
+
+        el.style.setProperty(
+            '--vol',
+            v+'%'
+        );
+
+    }
+
+}
+
+
+audio.volume=0.7;
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function fmt(s){
+
+    if(!isFinite(s)){
+        return '00:00';
+    }
+
+
+    const m=
+        Math.floor(
+            s/60
+        );
+
+
+    const ss=
+        Math.floor(
+            s%60
+        );
+
+
+    return String(m)
+        .padStart(2,'0')+
+        ':'+
+        String(ss)
+        .padStart(2,'0');
+
+}
+
+
+/* =========================================================
+   FAVORITOS
+========================================================= */
+
+function toggleFav(
+    e,
+    url
+){
+
+    e.stopPropagation();
+
+
+    if(
+        favs.has(url)
+    ){
+
+        favs.delete(url);
+
+    }else{
+
+        favs.add(url);
+
+    }
+
+
+    localStorage.setItem(
+        favKey,
+        JSON.stringify(
+            [...favs]
+        )
+    );
+
+
+    /* além do navegador, grava no app/servidor (/api/favs): o localStorage
+       é separado por ORIGEM (porta incluída), então ele sozinho não é
+       confiável para os favoritos "não sumirem" */
+
+    salvarFavoritosNoServidor();
+
+
+    document
+        .querySelectorAll(
+            '.fav-btn'
+        )
+        .forEach(
+            b=>{
+
+                if(
+                    b.getAttribute(
+                        'onclick'
+                    )?.includes(url)
+                ){
+
+                    b.classList.toggle(
+                        'on',
+                        favs.has(url)
+                    );
+
+                }
+
+            }
+        );
+
+
+    if(
+        currentView===
+        'favoritos'
+    ){
+
+        renderTracks(
+            favTracks(),
+            '// FAVORITOS'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+let searchTimer=null;
+
+
+function searchMusic(){
+
+    const q=
+        document
+            .getElementById(
+                'search'
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    clearTimeout(
+        searchTimer
+    );
+
+
+    if(!q){
+
+        searchMode=false;
+
+
+        if(
+            currentView===
+            'inicio'
+        ){
+
+            renderHome();
+
+        }else{
+
+            viewData={
+                view:'todas',
+                query:''
+            };
+
+            renderTracks(
+                lib.tracks,
+                '// TODAS AS MÚSICAS'
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    searchMode=true;
+
+
+    searchTimer=
+        setTimeout(
+            ()=>{
+
+                const found=
+                    lib.tracks.filter(
+                        t=>
+
+                            String(
+                                t.title||''
+                            )
+                            .toLowerCase()
+                            .includes(q)||
+
+
+                            String(
+                                t.artist||''
+                            )
+                            .toLowerCase()
+                            .includes(q)||
+
+
+                            String(
+                                t.album||''
+                            )
+                            .toLowerCase()
+                            .includes(q)||
+
+
+                            String(
+                                t.genre||''
+                            )
+                            .toLowerCase()
+                            .includes(q)
+
+                    );
+
+
+                renderTracks(
+                    found,
+                    '// BUSCA: '+
+                    q.toUpperCase()
+                );
+
+            },
+            250
+        );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function esc(s){
+
+    return String(
+        s ?? ''
+    )
+    .replace(
+        /&/g,
+        '&amp;'
+    )
+    .replace(
+        /</g,
+        '&lt;'
+    )
+    .replace(
+        />/g,
+        '&gt;'
+    )
+    .replace(
+        /'/g,
+        '&#39;'
+    )
+    .replace(
+        /"/g,
+        '&quot;'
+    );
+
+}
+
+
+/* =========================================================
+   COVER
+========================================================= */
+
+function coverImg(url){
+
+    if(!url){
+        return '';
+    }
+
+
+    return (
+
+        '<img '+
+            'src="'+
+                esc(url)+
+            '" '+
+            'alt="" '+
+            'loading="lazy" '+
+            'onerror="this.remove()">'
+
+    );
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT PLAYING
+========================================================= */
+
+function highlightCard(){
+
+    document
+        .querySelectorAll(
+            '.music-card[data-url]'
+        )
+        .forEach(
+            c=>{
+
+                c.classList.toggle(
+                    'playing',
+                    audio.src &&
+                    c.dataset.url===
+                    audio.src
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   TELA DE EFEITOS (pasta EFEITOS/)
+========================================================= */
+
+let fxList=[];
+
+let fxIndex=-1;
+
+
+async function loadEffects(){
+
+    const screen=
+
+        document.getElementById('fxScreen');
+
+
+    try{
+
+        const r=
+            await fetch('/api/effects');
+
+        fxList=
+            (await r.json()).effects||[];
+
+    }catch(e){
+
+        fxList=[];
+
+    }
+
+
+    if(!fxList.length){
+
+        if(screen){
+
+            screen.classList.add(
+                'fx-empty'
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    nextEffect();
+
+}
+
+
+function playEffect(){
+
+    if(!fxList.length)return;
+
+
+    const v=
+        document.getElementById(
+            'fxVideo'
+        );
+
+
+    if(!v)return;
+
+
+    const fx=
+        fxList[fxIndex];
+
+
+    if(!fx)return;
+
+
+    v.src=
+        fx.url;
+
+
+    v.play()
+        .catch(
+            ()=>{}
+        );
+
+}
+
+
+function nextEffect(){
+
+    if(!fxList.length)return;
+
+
+    if(fxList.length===1){
+
+        fxIndex=0;
+
+        playEffect();
+
+        return;
+
+    }
+
+
+    let n=
+
+        Math.floor(
+
+            Math.random()*
+            fxList.length
+
+        );
+
+
+    if(n===fxIndex){
+
+        n=(n+1)%
+            fxList.length;
+
+    }
+
+
+    fxIndex=n;
+
+
+    playEffect();
+
+}
+
+
+/* =========================================================
+   PASTAS — navegador de pastas da biblioteca
+   (nível 1: gêneros · nível 2: álbuns · nível 3: faixas)
+========================================================= */
+
+/* =========================================================
+   SWIPE PARA VOLTAR (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Arrastar o dedo da ESQUERDA para a DIREITA volta um nível
+   dentro das pastas (álbum → gênero → raiz). O conteúdo
+   acompanha o dedo e desliza na saída — o "slide".
+
+   Cuidados para não atrapalhar o uso normal:
+   - só ativa na view de PASTAS e com subpasta aberta (folderPath);
+   - ignora gesto que começa em input/botão (busca, volume, play…);
+   - se o movimento for mais VERTICAL que horizontal, cancela — a
+     rolagem da lista continua normal;
+   - usa Pointer Events, então vale para toque E mouse.
+========================================================= */
+
+const swipe={
+    ativo:false,
+    decidido:false,
+    x0:0,
+    y0:0,
+    dx:0,
+    alvo:null,
+    id:null
+};
+
+const SWIPE_MIN=70;          /* distância mínima para confirmar */
+const SWIPE_TOLERANCIA=10;   /* só decide depois de andar isso */
+
+let swipeCooldown=0;         /* trava anti-duplo-disparo */
+
+
+function swipePodeIniciar(e){
+
+    /* precisa haver subpasta aberta para voltar */
+    if(currentView!=='pastas'||!folderPath.length) return false;
+
+    /* não roubar o gesto de controles */
+    const el=
+        e.target instanceof Element
+            ? e.target
+            : null;
+
+    if(
+        el &&
+        el.closest(
+            'input,textarea,select,button,.volume,.search,.fx-screen'
+        )
+    ){
+        return false;
+    }
+
+    /* no mouse, só o botão esquerdo */
+    if(e.pointerType==='mouse'&&e.button!==0) return false;
+
+    return true;
+
+}
+
+
+function swipeAlvoEl(){
+
+    return document.getElementById('tracksSection')||
+        document.querySelector('.content');
+
+}
+
+
+document.addEventListener('pointerdown',e=>{
+
+    if(!swipePodeIniciar(e)) return;
+
+    swipe.ativo=true;
+    swipe.decidido=false;
+    swipe.id=e.pointerId;
+    swipe.x0=e.clientX;
+    swipe.y0=e.clientY;
+    swipe.dx=0;
+    swipe.alvo=swipeAlvoEl();
+
+},{passive:true});
+
+
+document.addEventListener('pointermove',e=>{
+
+    if(!swipe.ativo||e.pointerId!==swipe.id) return;
+
+    const dx=e.clientX-swipe.x0;
+    const dy=e.clientY-swipe.y0;
+
+    if(!swipe.decidido){
+
+        /* vertical manda: o usuário está rolando a lista */
+        if(Math.abs(dy)>Math.abs(dx)){
+
+            swipe.ativo=false;
+
+            return;
+
+        }
+
+        if(Math.abs(dx)<SWIPE_TOLERANCIA) return;
+
+        swipe.decidido=true;
+
+    }
+
+    if(dx<=0){
+
+        swipe.dx=0;
+
+        swipe.alvo.style.transform='';
+        swipe.alvo.style.opacity='';
+
+        return;
+
+    }
+
+    /* o conteúdo acompanha o dedo, com resistência */
+    swipe.dx=dx;
+
+    swipe.alvo.style.transition='none';
+    swipe.alvo.style.transform='translateX('+(dx*0.5)+'px)';
+    swipe.alvo.style.opacity=String(Math.max(0.4,1-dx/500));
+
+},{passive:true});
+
+
+function swipeFinalizar(cancelado){
+
+    if(!swipe.ativo||!swipe.alvo) return;
+
+    const alvo=swipe.alvo;
+    const dx=swipe.dx;
+
+    swipe.ativo=false;
+    swipe.dx=0;
+
+    alvo.style.transition='transform .18s ease,opacity .18s ease';
+
+    /* Gesto repetido muito rápido = trata como cancelado: garante que cada
+       arrasto volte UM nível só (o "volta pasta por pasta" depende disso). */
+
+    if(Date.now()-swipeCooldown<400) cancelado=true;
+
+
+    if(!cancelado&&dx>=SWIPE_MIN){
+
+        swipeCooldown=Date.now();
+
+        /* confirmou: desliza para fora e volta um nível */
+        alvo.style.transform='translateX(100%)';
+        alvo.style.opacity='0';
+
+        setTimeout(()=>{
+
+            folderUp();
+
+            alvo.style.transition='none';
+            alvo.style.transform='translateX(-22%)';
+            alvo.style.opacity='0';
+
+            /* obriga o navegador a aplicar esse estado antes de animar */
+            void alvo.offsetWidth;
+
+            alvo.style.transition='transform .22s ease,opacity .22s ease';
+            alvo.style.transform='';
+            alvo.style.opacity='';
+
+            setTimeout(()=>{
+
+                alvo.style.transition='';
+
+            },260);
+
+        },170);
+
+    }else{
+
+        /* não passou do limite: volta para o lugar */
+        alvo.style.transform='';
+        alvo.style.opacity='';
+
+        setTimeout(()=>{
+
+            alvo.style.transition='';
+
+        },200);
+
+    }
+
+}
+
+
+document.addEventListener('pointerup',()=>swipeFinalizar(false));
+
+/* `pointercancel` = o navegador tomou o gesto para si (ex.: virou rolagem):
+   cancela SEM voltar — senão um scroll poderia ser lido como "voltar" */
+
+document.addEventListener('pointercancel',()=>swipeFinalizar(true));
+
+
+/* =========================================================
+   HISTÓRICO — o "voltar" do sistema vale como voltar de pasta
+   ---------------------------------------------------------
+   No celular, arrastar da esquerda para a direita é o gesto de
+   VOLTAR do próprio navegador/sistema. Sem entradas no histórico
+   ele SAI DA PÁGINA — era o "sai completamente da página".
+   Aqui cada nível de pasta entra no histórico com um estado
+   próprio, então esse gesto passa a significar "voltar um nível
+   de pasta", que é o que o usuário espera.
+========================================================= */
+
+let navegandoHistorico=false;
+
+
+function empurrarHistorico(path){
+
+    try{
+
+        history.pushState(
+            {nexusFolder:(path||[]).slice()},
+            '',
+            location.href
+        );
+
+    }catch(e){}
+
+}
+
+
+window.addEventListener('popstate',e=>{
+
+    const st=
+        e.state||{};
+
+    /* Estado de PASTA: o histórico indicou em que nível o usuário estava */
+
+    if(st.nexusFolder){
+
+        navegandoHistorico=true;
+
+        renderFolders(st.nexusFolder);
+
+        return;
+
+    }
+
+    /* Estado da PÁGINA PRINCIPAL — era o que faltava: voltar a partir da
+       raiz das pastas tem de cair na HOME. Antes re-renderizava as PASTAS
+       (a entrada inicial marcava `{nexusFolder: []}`) e o toque seguinte
+       fechava o app. */
+
+    if(st.nexusView==='inicio'){
+
+        renderHome();
+
+        return;
+
+    }
+
+    /* Estados que não são nossos (ex.: views com #hash) ficam por conta
+       do listener de `hashchange`. */
+
+});
+
+
+let folderPath=[];
+
+let folderList=[];
+
+
+/* =========================================================
+   PASTA ESPECIAL YOUTUBE → MP3 (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   Cola o link, o servidor baixa com o yt-dlp direto em
+   MUSICAS/YOUTUBE e a barra mostra o progresso — o frontend
+   consulta /api/youtube/status enquanto o job está ativo.
+========================================================= */
+
+let ytTimer=null;
+
+/* Guarda o resultado da ÚLTIMA conclusão. Sem isso, o painel era
+   redesenhado após o download e a mensagem "✔ música baixada" sumia
+   (o usuário nunca via o que ele acabou de baixar). */
+
+let ytUltimoResultado='';
+
+
+/* Aviso sonoro de conclusão (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   O som é GERADO na hora com a Web Audio API (dois tons ascendentes
+   curtos, tipo "pronto!") — não precisa de arquivo de áudio nem de
+   download extra.
+
+   O contexto tem de ser criado/retomado dentro de um CLIQUE do
+   usuário (política de autoplay dos navegadores), por isso ele é
+   preparado no `ytBaixar()` e só usado depois, na conclusão. */
+
+let ytCtx=null;
+
+
+function ytPrepararAudio(){
+
+    try{
+
+        const AC=
+            window.AudioContext||
+            window.webkitAudioContext;
+
+        if(!AC) return;
+
+        if(!ytCtx) ytCtx=new AC();
+
+        if(ytCtx.state==='suspended') ytCtx.resume();
+
+    }catch(e){}
+
+}
+
+
+function ytSomConcluido(){
+
+    try{
+
+        if(!ytCtx) return;
+
+        if(ytCtx.state==='suspended') ytCtx.resume();
+
+        const t0=
+            ytCtx.currentTime;
+
+        /* dó agudo → mi agudo, curtinhos */
+
+        [[880,0,.14],[1318.5,.13,.30]].forEach(
+
+            ([hz,ini,fim])=>{
+
+                const osc=
+                    ytCtx.createOscillator();
+
+                const g=
+                    ytCtx.createGain();
+
+                osc.type='sine';
+
+                osc.frequency.value=hz;
+
+                g.gain.setValueAtTime(
+                    0.0001,
+                    t0+ini
+                );
+
+                g.gain.exponentialRampToValueAtTime(
+                    0.16,
+                    t0+ini+.02
+                );
+
+                g.gain.exponentialRampToValueAtTime(
+                    0.0001,
+                    t0+fim
+                );
+
+                osc.connect(g);
+
+                g.connect(ytCtx.destination);
+
+                osc.start(t0+ini);
+
+                osc.stop(t0+fim+.03);
+
+            }
+
+        );
+
+    }catch(e){}
+
+}
+
+
+/* Rola a lista para BAIXO até as RECENTEMENTE ADICIONADAS, para a
+   música que acabou de baixar ficar à vista (antes o redesenho
+   subia a tela para o topo). */
+
+function ytDescerParaRecentes(){
+
+    try{
+
+        const cont=
+            document.querySelector(
+                '.content'
+            );
+
+        const alvo=
+            document.getElementById(
+                'tracksSection'
+            );
+
+        if(!cont||!alvo) return;
+
+        const topo=
+            alvo.getBoundingClientRect().top -
+            cont.getBoundingClientRect().top +
+            cont.scrollTop -
+            12;
+
+        cont.scrollTo({
+            top:Math.max(0,topo),
+            behavior:'smooth'
+        });
+
+    }catch(e){}
+
+}
+
+
+function mostrarYtPainel(mostrar){
+
+    const p=
+        document.getElementById(
+            'ytPanel'
+        );
+
+    if(!p) return;
+
+    p.style.display=
+        mostrar ? 'block' : 'none';
+
+    if(!mostrar){
+
+        ytParar();
+
+        return;
+
+    }
+
+    /* ao ABRIR a pasta, sincroniza o painel com o servidor: se houver
+       download rolando continua mostrando, senão limpa o resultado
+       anterior (senão ficaria o "✔" da última vez que baixou) */
+
+    ytSincronizar();
+
+}
+
+
+async function ytSincronizar(){
+
+    try{
+
+        const r=
+            await fetch(
+                '/api/youtube/status?t='+Date.now()
+            );
+
+        const d=
+            await r.json();
+
+        if(d.ativo){
+
+            ytBarra(d.percentual, d.fase==='convertendo');
+
+            ytInfo(
+                d.fase==='convertendo'
+                    ? ((d.etapa || 'convertendo para MP3') + '…')
+                    : 'baixando o áudio…'
+            );
+
+            ytBotao(false);
+
+            ytPoll();
+
+        }else{
+
+            /* sem download rolando: mostra o resultado da última vez
+               (se houver) em vez de zerar a mensagem */
+
+            if(ytUltimoResultado){
+
+                ytBarra(100);
+
+                ytInfo(ytUltimoResultado,'ok');
+
+            }else{
+
+                ytBarra(0);
+
+                ytInfo('Aguardando um link…');
+
+            }
+
+            ytBotao(true);
+
+        }
+
+    }catch(e){}
+
+}
+
+
+function ytParar(){
+
+    clearTimeout(ytTimer);
+
+    ytTimer=null;
+
+}
+
+
+function ytInfo(txt,tipo){
+
+    const el=
+        document.getElementById(
+            'ytInfo'
+        );
+
+    if(!el) return;
+
+    el.textContent=txt;
+
+    el.classList.toggle('ok',tipo==='ok');
+
+    el.classList.toggle('erro',tipo==='erro');
+
+}
+
+
+function ytBarra(pct,convertendo){
+
+    const f=
+        document.getElementById(
+            'ytFill'
+        );
+
+    const p=
+        document.getElementById(
+            'ytPct'
+        );
+
+    const bar=
+        document.querySelector(
+            '.yt-bar'
+        );
+
+    const v=
+        Math.max(
+            0,
+            Math.min(100,Number(pct)||0)
+        );
+
+    if(f) f.style.width=v+'%';
+
+    if(p) p.textContent=Math.round(v)+'%';
+
+    /* durante a conversão a barra vira INDETERMINADA (listras
+       correndo) — não existe percentual real nessa fase */
+
+    if(bar){
+
+        bar.classList.toggle(
+            'convertendo',
+            !!convertendo
+        );
+
+    }
+
+}
+
+
+function ytBotao(habilitar){
+
+    const b=
+        document.getElementById(
+            'ytBtn'
+        );
+
+    if(b) b.disabled=!habilitar;
+
+}
+
+
+async function ytBaixar(){
+
+    const inp=
+        document.getElementById(
+            'ytUrl'
+        );
+
+    const url=
+        inp ? (inp.value||'').trim() : '';
+
+    if(!url){
+
+        ytInfo('cole o link da música','erro');
+
+        return;
+
+    }
+
+    ytUltimoResultado='';
+
+    /* o clique do usuário é a chance de destravar o áudio do aviso
+       (política de autoplay dos navegadores) */
+
+    ytPrepararAudio();
+
+    ytBotao(false);
+
+    ytBarra(0);
+
+    ytInfo('iniciando…');
+
+    try{
+
+        const r=
+            await fetch('/api/youtube',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({url:url})
+            });
+
+        const d=
+            await r.json();
+
+        if(!r.ok){
+
+            ytInfo(d.error||'não deu para iniciar','erro');
+
+            ytBotao(true);
+
+            return;
+
+        }
+
+        if(inp) inp.value='';
+
+        ytPoll();
+
+    }catch(e){
+
+        ytInfo('erro de rede','erro');
+
+        ytBotao(true);
+
+    }
+
+}
+
+
+async function ytPoll(){
+
+    ytParar();
+
+    try{
+
+        const r=
+            await fetch(
+                '/api/youtube/status?t='+Date.now()
+            );
+
+        const d=
+            await r.json();
+
+        const fase=
+            d.fase||'';
+
+        /* a barra fica "indeterminada" (listras) durante a conversão */
+
+        ytBarra(
+            d.percentual,
+            fase==='convertendo'
+        );
+
+        if(fase==='baixando'){
+
+            ytInfo('baixando o áudio…');
+
+        }else if(fase==='convertendo'){
+
+            /* mostra a ETAPA REAL que o servidor reportou
+               (extraindo o áudio / embutindo a capa / …) */
+
+            ytInfo(
+                (d.etapa || 'convertendo para MP3') + '…'
+            );
+
+        }else if(fase==='concluido'){
+
+            ytBarra(100,false);
+
+            ytUltimoResultado='✔ '+d.titulo;
+
+            ytInfo(ytUltimoResultado,'ok');
+
+            ytBotao(true);
+
+            /* AVISA que terminou: toca o som e depois desce a tela até
+               as RECENTEMENTE ADICIONADAS, para a música nova aparecer
+               (antes o redesenho jogava a tela para o topo). */
+
+            ytSomConcluido();
+
+            /* recarrega a biblioteca e redesenha a view atual, sem tirar
+               o usuário de onde ele está */
+            await ytRecarregar();
+
+            ytDescerParaRecentes();
+
+            return;
+
+        }else if(fase==='erro'){
+
+            ytInfo('✖ '+(d.erro||'falhou'),'erro');
+
+            ytBotao(true);
+
+            return;
+
+        }
+
+        if(d.ativo){
+
+            ytTimer=setTimeout(ytPoll,800);
+
+        }else{
+
+            ytBotao(true);
+
+        }
+
+    }catch(e){
+
+        ytTimer=setTimeout(ytPoll,1500);
+
+    }
+
+}
+
+
+async function ytRecarregar(){
+
+    try{
+
+        const r=
+            await fetch('/api/music?t='+Date.now());
+
+        lib=
+            await r.json();
+
+        lastTotal=lib.total;
+
+        updateStats();
+
+        /* redesenha a view ATUAL sem empilhar entrada no histórico.
+           Na página principal, redesenha a HOME (antes o `renderFolders([])`
+           levava o usuário para PASTAS no meio do download). */
+
+        navegandoHistorico=true;
+
+        if(currentView==='pastas'&&folderPath.length){
+
+            renderFolders(folderPath);
+
+        }else{
+
+            renderHome();
+
+        }
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   FAVORITOS (a pedido, 16/09/2026)
+   ---------------------------------------------------------
+   A estrela ★ dos cards já marcava as favoritas — o que faltava
+   era um jeito rápido de ver SÓ elas. O botão da toolbar (que
+   antes era o UPLOAD) abre esta lista, e os favoritos também
+   aparecem como uma "pasta" na navegação.
+
+   A estrela continua funcionando igual: marcar/desmarcar aqui
+   dentro atualiza a lista na hora.
+========================================================= */
+
+function verFavoritos(){
+
+    currentView='favoritos';
+
+    searchMode=false;
+
+    viewData={
+        view:'favoritos',
+        query:''
+    };
+
+    folderPath=[];
+
+    mostrarYtPainel(false);
+
+    const lista=
+        favTracks();
+
+
+    renderTracks(
+        lista,
+        '// ★ FAVORITOS'
+    );
+
+
+    /* sem nenhum favorito ainda? explica como marcar */
+
+    if(!lista.length){
+
+        mostrarVazioFavoritos();
+
+    }
+
+}
+
+
+/** Mensagem de "nenhum favorito" (usada pelo botão e pela pasta). */
+function mostrarVazioFavoritos(){
+    const grid=
+        document.getElementById(
+            'musicGrid'
+        );
+
+
+    if(!grid) return;
+
+
+    grid.innerHTML=
+
+        '<div class="fav-vazio">'+
+
+            '<div class="fav-vazio-icone">★</div>'+
+
+            '<div class="fav-vazio-titulo">'+
+                'Nenhum favorito ainda'+
+            '</div>'+
+
+            '<div class="fav-vazio-dica">'+
+                'Toque na estrela ★ de qualquer música<br>'+
+                'para ela aparecer aqui.'+
+            '</div>'+
+
+        '</div>';
+
+}
+
+
+function renderFolders(path){
+
+    folderPath=
+        path||[];
+
+
+    /* registra o nível no histórico, para o gesto de "voltar" do
+       sistema/navegador significar voltar de pasta (ver bloco HISTÓRICO).
+       Quando a chamada vem do próprio popstate, não empilha de novo. */
+
+    if(!navegandoHistorico){
+
+        empurrarHistorico(folderPath);
+
+    }
+
+    navegandoHistorico=false;
+
+
+    currentView='pastas';
+
+    searchMode=false;
+
+    viewData={
+        view:'pastas',
+        query:''
+    };
+
+
+    document
+        .getElementById(
+            'genresSection'
+        )
+        .style.display='none';
+
+
+    document
+        .getElementById(
+            'albumsSection'
+        )
+        .style.display='none';
+
+
+    const genre=
+        folderPath[0]||null;
+
+    const album=
+        folderPath[1]||null;
+
+
+    /* PASTA ESPECIAL YOUTUBE: traz o painel de download e aparece mesmo
+       vazia (senão o usuário não teria como baixar a primeira música) */
+
+    if(genre==='YOUTUBE'&&!album){
+
+        renderTracks(
+            lib.tracks.filter(
+                t=>t.genre==='YOUTUBE'
+            ),
+            '// ▶ YOUTUBE (MP3)'
+        );
+
+        mostrarYtPainel(true);
+
+        return;
+
+    }
+
+
+    /* PASTA ESPECIAL FAVORITOS: só as faixas marcadas com a estrela ★ */
+
+    if(genre==='FAVORITOS'&&!album){
+
+        const favoritas=
+            favTracks();
+
+
+        renderTracks(
+            favoritas,
+            '// ★ FAVORITOS'
+        );
+
+
+        if(!favoritas.length){
+
+            mostrarVazioFavoritos();
+
+        }
+
+        return;
+
+    }
+
+
+    /* músicas soltas na raiz do gênero (álbum == gênero, ex.: UPLOAD):
+       mostra as faixas direto, sem o nível de pasta redundante */
+
+    if(genre && !album){
+
+        const soltas=
+            lib.tracks.filter(
+                t=>
+                    t.genre===genre &&
+                    t.album===genre
+            );
+
+        const subpastas=
+            lib.albums.filter(
+                a=>
+                    a.genre===genre &&
+                    a.name!==genre
+            );
+
+        if(soltas.length && !subpastas.length){
+
+            renderTracks(
+                soltas,
+                '// 🗂 '+genre
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* dentro do álbum: mostra as faixas */
+
+    if(genre&&album){
+
+        renderTracks(
+
+            lib.tracks.filter(
+                t=>
+                    t.genre===genre &&
+                    t.album===album
+            ),
+
+            '// 🗂 '+genre+' / '+album
+
+        );
+
+        return;
+
+    }
+
+
+    /* níveis de pasta */
+
+    folderList=
+
+        genre
+
+            ? lib.albums
+
+                .filter(
+                    a=>a.genre===genre
+                )
+
+                .map(
+                    a=>({
+
+                        nome:a.name,
+
+                        sub:a.count+' músicas',
+
+                        abrir:[genre,a.name]
+
+                    })
+                )
+
+            : (
+
+                /* FAVORITOS vem PRIMEIRO na lista — é o atalho mais usado.
+                   É uma pasta VIRTUAL (não existe no disco): junta as faixas
+                   marcadas com a estrela ★ e aparece sempre, mesmo vazia. */
+
+                [{
+
+                    nome:'FAVORITOS',
+
+                    sub:'suas músicas com estrela',
+
+                    abrir:['FAVORITOS']
+
+                }].concat(
+
+                    lib.genres
+
+                        /* a pasta UPLOAD saiu da navegação (a pedido): o
+                           envio de arquivos não faz mais sentido aqui. As
+                           músicas dela continuam na biblioteca e aparecem
+                           nos ÁLBUNS e na busca — só não têm mais pasta. */
+
+                        .filter(
+                            g=>
+                                g.name!=='UPLOAD'
+                        )
+
+                        .map(
+                            g=>({
+
+                                nome:g.name,
+
+                                sub:g.count+' músicas',
+
+                                abrir:[g.name]
+
+                            })
+                        )
+
+                ).concat(
+
+                    /* idem para a pasta YOUTUBE — a especial de download
+                       precisa aparecer desde a primeira vez */
+
+                    lib.genres.some(
+                        g=>
+                            g.name==='YOUTUBE'
+                    )
+
+                        ? []
+
+                        : [{
+
+                            nome:'YOUTUBE',
+
+                            sub:'baixar do YouTube…',
+
+                            abrir:['YOUTUBE']
+
+                        }]
+
+                )
+            );
+
+
+    document
+        .getElementById(
+            'tracksTitle'
+        )
+        .textContent=
+
+            folderPath.length
+
+                ? '// 🗂 '+folderPath.join(' / ')
+                : '// 🗂 PASTAS';
+
+
+    document
+        .getElementById(
+            'tracksCount'
+        )
+        .textContent=
+
+            String(
+                folderList.length
+            ).padStart(2,'0')+
+
+            (
+                folderList.length===1
+                ? ' PASTA'
+                : ' PASTAS'
+            );
+
+
+    const grid=
+        document.getElementById(
+            'musicGrid'
+        );
+
+
+    grid.innerHTML=
+
+        (
+            folderPath.length
+
+                ? '<article '+
+                    'class="folder-card up" '+
+                    'onclick="folderUp()">'+
+
+                    '<div class="folder-ico">↰</div>'+
+
+                    '<div class="folder-info">'+
+                        '<strong>..</strong>'+
+                        '<span>voltar</span>'+
+                    '</div>'+
+
+                '</article>'
+
+                : ''
+        )+
+
+        folderList.map(
+            (p,i)=>
+
+            '<article '+
+                'class="folder-card" '+
+                'onclick="openFolder('+
+                    i+
+                ')">'+
+
+                '<div class="folder-ico">🗂</div>'+
+
+                '<div class="folder-info">'+
+                    '<strong>'+
+                        esc(p.nome)+
+                    '</strong>'+
+                    '<span>'+
+                        esc(p.sub)+
+                    '</span>'+
+                '</div>'+
+
+            '</article>'
+        ).join('');
+
+
+    /* nas telas de PASTAS (níveis 1 e 2) o painel do YouTube não entra */
+
+    mostrarYtPainel(false);
+
+
+    queue=[];
+
+}
+
+
+function openFolder(i){
+
+    const p=
+        folderList[i];
+
+    if(!p)return;
+
+    renderFolders(p.abrir);
+
+}
+
+
+function folderUp(){
+
+    renderFolders(
+        folderPath.slice(0,-1)
+    );
+
+}
+
+
+/* =========================================================
+   UPLOAD — envia arquivos para MUSICAS/UPLOAD
+========================================================= */
+
+function openUpload(){
+
+    const inp=
+        document.getElementById(
+            'uploadInput'
+        );
+
+    if(inp){
+
+        inp.value='';
+
+        inp.click();
+
+    }
+
+}
+
+
+async function doUpload(input){
+
+    const files=
+        [...(input.files||[])];
+
+    if(!files.length)return;
+
+
+    const status=
+        document.getElementById(
+            'uploadStatus'
+        );
+
+
+    let ok=0;
+
+    const falhas=[];
+
+
+    for(let i=0;i<files.length;i++){
+
+        if(status){
+
+            status.textContent=
+
+                '↑ '+(i+1)+'/'+files.length+
+                '  '+files[i].name;
+
+        }
+
+
+        const fd=
+            new FormData();
+
+        fd.append(
+            'file',
+            files[i],
+            files[i].name
+        );
+
+
+        try{
+
+            const r=
+                await fetch(
+                    '/api/upload',
+                    {
+                        method:'POST',
+                        body:fd
+                    }
+                );
+
+            const j=
+                await r.json();
+
+            if(
+                r.ok &&
+                j.saved &&
+                j.saved.length
+            ){
+
+                ok++;
+
+            }else{
+
+                falhas.push(
+                    files[i].name
+                );
+
+            }
+
+        }catch(e){
+
+            falhas.push(
+                files[i].name
+            );
+
+        }
+
+    }
+
+
+    if(status){
+
+        status.textContent=
+
+            '✔ '+ok+' enviado'+
+            (ok===1?'':'s')+
+
+            (
+                falhas.length
+                ? '  ✕ '+falhas.length+' falhou'
+                : ''
+            );
+
+    }
+
+
+    /* recarrega a biblioteca e volta para a página inicial
+       (a pasta UPLOAD saiu da navegação) */
+
+    await loadLib();
+
+    renderHome();
+
+
+    setTimeout(
+        ()=>{
+            if(status)status.textContent='';
+        },
+        8000
+    );
+
+}
+
+
+/* =========================================================
+   INFORMAÇÕES DA BIBLIOTECA (linha abaixo da busca)
+========================================================= */
+
+function updateStats(){
+
+    const el=
+        document.getElementById(
+            'toolStats'
+        );
+
+
+    if(!el)return;
+
+
+    const musicas=
+        lib.total||
+        lib.tracks.length;
+
+
+    /* pastas = exatamente as que a navegação mostra: os gêneros visíveis
+       (SEM a UPLOAD, que saiu da navegação) + a pasta virtual ★ FAVORITOS
+       + a YOUTUBE, que aparece mesmo quando ainda não tem música */
+
+    let pastas=
+
+        lib.genres.filter(
+            g=>
+                g.name!=='UPLOAD'
+        ).length
+
+        +1;   /* a pasta virtual FAVORITOS */
+
+
+    /* a pasta especial YOUTUBE também aparece na navegação mesmo quando
+       ainda não tem nenhuma música */
+
+    if(
+        !lib.genres.some(
+            g=>
+                g.name==='YOUTUBE'
+        )
+    ){
+
+        pastas++;
+
+    }
+
+
+    el.innerHTML=
+
+        '<span>♪ <b>'+
+            musicas+
+        '</b> músicas</span>'+
+
+        '<span>🗂 <b>'+
+            pastas+
+        '</b> pastas</span>';
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+/* marca a entrada inicial do histórico com a "raiz" das pastas.
+   Sem isso o primeiro "voltar" do sistema sairia da página. */
+
+try{
+
+    /* A ENTRADA INICIAL representa a PÁGINA PRINCIPAL (a home), não a
+       raiz das pastas. Antes ela era marcada como `{nexusFolder: []}`,
+       e por isso o "voltar" a partir da raiz das pastas re-renderizava
+       as PASTAS outra vez — nunca chegava na home, e o toque seguinte
+       FECHAVA o app (no APK, via onBackPressed). */
+
+    history.replaceState(
+        {nexusView:'inicio'},
+        '',
+        location.href
+    );
+
+}catch(e){}
+
+
+/* Favoritos salvos no app PRIMEIRO: assim as estrelas já vêm marcadas
+   quando a lista for montada (senão o usuário vê tudo "desmarcado" e
+   acha que perdeu os favoritos). O /api/favs não existe no servidor
+   Python — lá o fetch devolve 404 e seguimos com o localStorage. */
+
+(async()=>{
+
+    await carregarFavoritos();
+
+    loadLib();
+
+})();
+
+loadEffects();
+
+
+/* Enter no campo da pasta YOUTUBE já dispara o download */
+
+const ytInputEl=
+    document.getElementById(
+        'ytUrl'
+    );
+
+if(ytInputEl){
+
+    ytInputEl.addEventListener(
+        'keydown',
+        e=>{
+
+            if(e.key==='Enter'){
+
+                e.preventDefault();
+
+                ytBaixar();
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>
