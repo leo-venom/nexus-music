@@ -7,6 +7,11 @@
 Plays your local library. Downloads from YouTube on the device itself.
 Works on mobile data, on any network — **no computer, no server required.**
 
+### 🚫 No ads · No trackers · No account · No subscription
+
+Everything works offline and for free. There is nothing to unlock, nothing to watch, and no data
+leaving your phone. The code is open (GPL-3.0) — you can check all of that yourself.
+
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%2013%2B-green.svg)](#-build)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](#-architecture)
@@ -30,12 +35,14 @@ Works on mobile data, on any network — **no computer, no server required.**
 | 📚 **Your library** | Reads MP3/M4A/FLAC from the device via `MediaStore` — no import step, no cloud |
 | ⬇️ **YouTube → audio** | Paste a link and the app downloads and converts it **on the phone** |
 | ⚡ **Parallel download** | 5 concurrent `Range` connections — **5.7× faster** than a single stream (measured) |
+| 🎧 **System controls** | Lock screen, notification and **headset buttons** all work |
 | ★ **Favorites** | Saved to a file in the app, so they survive restarts and browser/cache wipes |
 | 🎛️ **Retro player** | Analog-style controls, mixer fader, chunky 3D keys that press down |
 | 🎬 **Video effect screen** | Animated backdrop in the player, bundled in the APK |
 | 🖐️ **Gesture navigation** | Swipe right to go up a folder level; Android back never breaks |
 | 🎧 **Now playing bar** | Appears when the player scrolls out of view, tap to jump back |
 | 🔍 **Search** | By title, artist or album |
+| 🚫 **No ads or trackers** | 4.5 MB, no SDK bloat, no telemetry, no account |
 
 ---
 
