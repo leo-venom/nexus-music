@@ -15,10 +15,10 @@
 | Item | Valor |
 |---|---|
 
-| **Nome** | `NEXUS-MUSIC-OFFLINE-v1.9.apk` |
+| **Nome** | `NEXUS-MUSIC-OFFLINE-v1.13.apk` |
 | **Pacote** | `com.leo.nexusmusicapp` |
 | **Rótulo** | **NEXUS MUSIC** |
-| **Versão** | **1.9** (versionCode 10) |
+| **Versão** | **1.13** (versionCode 14) |
 | **Tamanho** | **5,4 MB** (5.637.084 bytes) |
 | **SHA-256** | `a6d77607ca5e7a9cea0420e86ce6d2b4d8cfc9885ecafd3c6dff7666e669f30d` |
 | **Assinatura** | Android Debug (verificada com `apksigner`) |
@@ -30,6 +30,8 @@
 
 | Versão | Mudança |
 |---|---|
+| **1.13** | 🎧 **Controles na tela bloqueada, na notificação e no fone de ouvido** (MediaSession nativa em serviço de primeiro plano) — **testado e aprovado no aparelho** ✅ · assinatura v2+v3 |
+| **1.12** | 🔐 Assinatura de **release** de verdade (antes era debug) + ☕ tela **♥ APOIAR** (PIX) |
 | **1.9** | 🧹 **Botão ⬇ DOWNLOAD dos cards removido** — tudo já está salvo, então o botão era redundante (o painel BAIXAR do YouTube continua) |
 | **1.8** | 👀 Vitrine da página principal de **4 → 8** músicas recentes (os baixados do YouTube aparecem mais; a pasta YOUTUBE continua com todos) |
 | **1.7** | ⭐ **Favoritos agora persistem de verdade** — o app usa **porta fixa** (8477) e guarda os favoritos num **arquivo** (`/api/favs`), em vez de depender só do `localStorage` (que muda de 'identidade' a cada porta nova) |
@@ -217,7 +219,7 @@ na rua. Os pacotes são diferentes, então podem ficar instalados juntos.
 | Comando de publicação | `./scripts/publicar.sh` (cria o repo, faz o push e publica a Release com o APK) |
 | Arquivos versionados | **26** |
 | Commits iniciais | `dc0255c` (código) · `3b3cb45` (script de publicação) |
-| Release | **v1.9** com `NEXUS-MUSIC-OFFLINE-v1.9.apk` (5,3 MB) anexado |
+| Release | **v1.9** com `NEXUS-MUSIC-OFFLINE-v1.13.apk` (5,3 MB) anexado |
 | Linguagens (GitHub) | HTML 66,6% · Java 34,1% |
 | Créditos | NewPipe Extractor (GPL-3.0) e yt-dlp (Unlicense) |
 
