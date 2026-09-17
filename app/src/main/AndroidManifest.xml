@@ -17,6 +17,11 @@
     <!-- Aviso de download concluído -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- O player roda em primeiro plano enquanto há música: sem isso o
+         Android encerra o app em segundo plano e a música para. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
     <application
         android:label="NEXUS MUSIC"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +48,14 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+    
+        <!-- A MediaSession vive aqui: é o que faz a tela de bloqueio, a
+             notificação e os botões do fone controlarem a música. -->
+        <service
+            android:name=".PlayerService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
     </application>
 </manifest>

@@ -57,6 +57,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* o PlayerService precisa desta referência para mandar os
+           controles da tela de bloqueio / fone para o JavaScript */
+        ativa = this;
+
         /* é um player: mantém a tela acesa */
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -108,6 +112,10 @@ public class MainActivity extends Activity {
            expomos um caminho nativo que sempre funciona. O JS tenta
            esta ponte antes de cair no fallback do navegador. */
         webView.addJavascriptInterface(new PonteClipboard(), "AndroidClip");
+
+        /* Ponte da mídia: a interface avisa o Android o que está tocando,
+           e o PlayerService devolve os controles (tela bloqueada/fone). */
+        webView.addJavascriptInterface(new PonteMedia(), "AndroidMedia");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -266,6 +274,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+
+        ativa = null;
+
         if (servidor != null) servidor.parar();
         super.onDestroy();
     }
@@ -312,6 +323,50 @@ public class MainActivity extends Activity {
                         (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 if (area != null) {
                     area.setPrimaryClip(ClipData.newPlainText("PIX NEXUS MUSIC", texto.trim()));
+                }
+            });
+        }
+    }
+
+
+    /** Instância viva da Activity — o PlayerService usa para falar com a interface. */
+    private static MainActivity ativa;
+
+    /** Executa JavaScript na interface (chamado pelo PlayerService). */
+    public static void chamarJs(final String js) {
+
+        final MainActivity instancia = ativa;
+
+        if (instancia == null || instancia.webView == null) {
+            return;
+        }
+
+        instancia.runOnUiThread(() -> {
+            try {
+                instancia.webView.evaluateJavascript(js, null);
+            } catch (Exception e) {
+                Log.w("NexusMusic", "chamarJs: " + e);
+            }
+        });
+    }
+
+    /**
+     * Recebe da interface o que está tocando e repassa ao PlayerService
+     * (que publica na tela de bloqueio, na notificação e nos botões do fone).
+     */
+    private class PonteMedia {
+
+        @JavascriptInterface
+        public void atualizar(final String titulo, final String artista, final boolean tocando) {
+            runOnUiThread(() -> {
+                try {
+                    PlayerService.atualizar(
+                            MainActivity.this,
+                            titulo,
+                            artista,
+                            tocando);
+                } catch (Exception e) {
+                    Log.w("NexusMusic", "atualizar midia: " + e);
                 }
             });
         }

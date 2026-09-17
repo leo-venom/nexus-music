@@ -4340,6 +4340,107 @@ document.addEventListener(
 );
 
 
+
+/* =========================================================
+   CONTROLES DO SISTEMA — tela de bloqueio e fone de ouvido
+   ---------------------------------------------------------
+   O áudio toca DENTRO do WebView, e o WebView não publica a
+   MediaSession dele para o Android. Por isso existe um serviço
+   nativo (PlayerService) que mantém a sessão viva e recebe os
+   controles — e nós contamos a ele o que está tocando.
+
+   • Daqui para o Android: avisarSistema()
+   • Do Android para cá:  nexusControle(acao)
+========================================================= */
+
+/** Conta ao Android o que está tocando (título, artista e se está tocando). */
+function avisarSistema(){
+
+    try{
+
+        if(
+            !window.AndroidMedia||
+            !window.AndroidMedia.atualizar
+        )return;
+
+        const nome=
+            document.getElementById(
+                'currentSong'
+            );
+
+        const artista=
+            document.getElementById(
+                'currentArtist'
+            );
+
+        window.AndroidMedia.atualizar(
+            nome?nome.textContent:'',
+            artista?artista.textContent:'',
+            !audio.paused
+        );
+
+    }catch(e){}
+
+}
+
+
+/**
+ * Controles vindos do sistema: tela de bloqueio, notificação e os
+ * botões do fone de ouvido. O serviço nativo chama esta função.
+ */
+function nexusControle(acao){
+
+    if(acao==='next'){
+        nextSong();
+        return;
+    }
+
+    if(acao==='prev'){
+        prevSong();
+        return;
+    }
+
+    if(acao==='pause'){
+
+        if(!audio.paused){
+            audio.pause();
+        }
+
+        return;
+    }
+
+    if(acao==='play'){
+
+        if(audio.paused){
+            audio.play();
+        }
+
+        return;
+    }
+
+    /* qualquer outra coisa = alternar */
+    togglePlay();
+
+}
+
+
+/* sempre que o estado mudar, o Android fica sabendo */
+audio.addEventListener(
+    'play',
+    avisarSistema
+);
+
+audio.addEventListener(
+    'pause',
+    avisarSistema
+);
+
+audio.addEventListener(
+    'ended',
+    avisarSistema
+);
+
+
 /* =========================================================
    PERSISTÊNCIA DOS FAVORITOS (corrigido em 16/09/2026)
    ---------------------------------------------------------
@@ -5259,6 +5360,10 @@ function playTrack(){
             t.artist+
             ' · '+
             t.genre;
+
+
+    /* tela de bloqueio / fone: o Android precisa saber o que está tocando */
+    avisarSistema();
 
 
     /* o mini-player fixo (que aparece quando o player sai de vista)
